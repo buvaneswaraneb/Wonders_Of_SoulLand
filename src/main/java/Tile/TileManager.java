@@ -15,6 +15,7 @@ public class TileManager{
     GamePanel gp;
     public Tile[] tiles ;
     public int[][] map;
+    public int[][] overlay_map;
     int map_size_row = 50;
     int map_size_col = 50;
 
@@ -63,6 +64,7 @@ public class TileManager{
         String trail_path = "trail.txt";
         try {
             map = load_map(trail_path);
+            overlay_map = load_map("trail_overlay.txt");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -156,36 +158,30 @@ public class TileManager{
     }
 
 
-    private void overlay(Graphics2D g2d){;
-        int[][] overlay_map;
-        try {
-            overlay_map = load_map("trail_overlay.txt");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
+    private void overlay(Graphics2D g2d){
+        if (overlay_map == null) return;
         try{
             int world_col = 0;
             int world_row = 0;
 
-
             while(world_col < gp.max_world_col && world_row < gp.max_world_row) {
                 int idx = overlay_map[world_row][world_col];
-                if (idx == 0) continue;
-                BufferedImage image = tiles[idx].tile_image;
+                if (idx != 0 && tiles[idx] != null && tiles[idx].tile_image != null) {
+                    BufferedImage image = tiles[idx].tile_image;
 
-                int worldX = world_col * gp.tile_size;
-                int worldY = world_row * gp.tile_size;
+                    int worldX = world_col * gp.tile_size;
+                    int worldY = world_row * gp.tile_size;
 
-                int ScreenX = worldX - gp.player.World_x + gp.player.ScreenX;
-                int ScreenY = worldY - gp.player.World_y + gp.player.ScreenY;
+                    int ScreenX = worldX - gp.player.World_x + gp.player.ScreenX;
+                    int ScreenY = worldY - gp.player.World_y + gp.player.ScreenY;
 
-                if (worldX + gp.tile_size > gp.player.World_x - gp.player.ScreenX &&
-                        worldX - gp.tile_size < gp.player.World_x + gp.player.ScreenX &&
-                        worldY + gp.tile_size > gp.player.World_y - gp.player.ScreenY &&
-                        worldY - gp.tile_size < gp.player.World_y + gp.player.ScreenY) {
+                    if (worldX + gp.tile_size > gp.player.World_x - gp.player.ScreenX &&
+                            worldX - gp.tile_size < gp.player.World_x + gp.player.ScreenX &&
+                            worldY + gp.tile_size > gp.player.World_y - gp.player.ScreenY &&
+                            worldY - gp.tile_size < gp.player.World_y + gp.player.ScreenY) {
 
-                    g2d.drawImage(image, ScreenX, ScreenY, gp.tile_size, gp.tile_size, null);
+                        g2d.drawImage(image, ScreenX, ScreenY, gp.tile_size, gp.tile_size, null);
+                    }
                 }
                 world_col++;
 
