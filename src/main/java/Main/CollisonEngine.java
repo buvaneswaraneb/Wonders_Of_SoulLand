@@ -1,6 +1,6 @@
-package main;
+package Main;
 
-import entity.Entity;
+import Entity.Entity;
 
 public class CollisonEngine {
     GamePanel gp;

@@ -1,7 +1,8 @@
-package main;
+package Main;
 
+import Objects.SuperObject;
 import Tile.TileManager;
-import entity.Player;
+import Entity.Player;
 
 import javax.swing.*;
 import java.awt.*;
@@ -35,6 +36,12 @@ public class GamePanel extends JPanel implements Runnable{
 
     //collision
     public CollisonEngine collisonEngine = new CollisonEngine(this);
+
+    //object
+    public SuperObject[] Obj = new SuperObject[10]; // debug @ trail
+
+    //AssestsSetter
+    public AssestsSetter aSetter = new AssestsSetter(this);
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(screen_width,screen_height));
@@ -85,6 +92,9 @@ public class GamePanel extends JPanel implements Runnable{
         }
     }
 
+    public void setUpGame(){
+        aSetter.setObjects();
+    }
 
     private void update(){
        // update player
@@ -93,9 +103,13 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-
         Graphics2D g2d = (Graphics2D) g;
         tileManager.draw(g2d);
+        // display Objects
+        for(int i = 0; i < 10; i++){
+            if(Obj[i] == null) continue;
+            Obj[i].draw(this,g2d);
+        }
         player.draw(g2d);
         g2d.dispose();
     }

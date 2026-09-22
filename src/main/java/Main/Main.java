@@ -1,4 +1,4 @@
-package main;
+package Main;
 
 import javax.swing.*;
 
@@ -18,5 +18,7 @@ public class Main {
         window.setVisible(true);
 
         gamepanel.startGameThread();
+        gamepanel.setUpGame();
+
     }
 }
