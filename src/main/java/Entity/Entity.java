@@ -11,6 +11,8 @@ public class Entity {
     public String directions;
     int sprite_delay = 0;
     int spite_number = 1;
+    public String name ;
+    public boolean debug = false;
 
     //animations
     ArrayList<BufferedImage> up_walking = new ArrayList<>();

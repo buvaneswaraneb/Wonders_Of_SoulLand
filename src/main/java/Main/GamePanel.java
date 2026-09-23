@@ -1,5 +1,6 @@
 package Main;
 
+import Entity.Traveller;
 import Objects.SuperObject;
 import Tile.TileManager;
 import Entity.Player;
@@ -32,6 +33,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     //Entities
     public Player player = new Player(this,key_handler);
+    public Traveller traveller = new Traveller(this);
     TileManager tileManager = new TileManager(this);
 
     //System
@@ -40,6 +42,7 @@ public class GamePanel extends JPanel implements Runnable{
     public AssestsSetter aSetter = new AssestsSetter(this);
     public Sound sound = new Sound();
     public Sound music = new Sound();
+    public UI ui = new UI(this);
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(screen_width,screen_height));
@@ -48,6 +51,8 @@ public class GamePanel extends JPanel implements Runnable{
         this.addKeyListener(key_handler);
         this.setFocusable(true);
 
+        //debug
+        debug();
     }
 
     public void startGameThread(){
@@ -98,6 +103,7 @@ public class GamePanel extends JPanel implements Runnable{
     private void update(){
        // update player
         player.update();
+        traveller.update();
     }
 
     public void paintComponent(Graphics g){
@@ -109,7 +115,9 @@ public class GamePanel extends JPanel implements Runnable{
             if(Obj[i] == null) continue;
             Obj[i].draw(this,g2d);
         }
+        ui.draw(g2d);
         player.draw(g2d);
+        traveller.draw(g2d);
         g2d.dispose();
     }
 
@@ -127,6 +135,14 @@ public class GamePanel extends JPanel implements Runnable{
     public void playSpecialEffects(int i){
         sound.setFile(i);
         sound.play();
+    }
+
+    private void debug(){
+        player.debug = true;
+        for(int i = 0; i < 10; i++){
+            if(Obj[i] == null) continue;
+            Obj[i].debug = true;
+        }
     }
 
 

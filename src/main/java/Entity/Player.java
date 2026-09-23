@@ -4,6 +4,7 @@ package Entity;
 import Main.GamePanel;
 import Main.KeyHandler;
 import javax.imageio.ImageIO;
+import javax.management.ObjectName;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -15,7 +16,8 @@ public class Player extends Entity{
     int sprite_length = 6;
     public final int ScreenX;
     public final int ScreenY;
-    private int woodScore = 0;
+    public int woodScore = 0;
+
 
     public Player(GamePanel gp , KeyHandler key_handler){
         this.gp = gp;
@@ -43,6 +45,7 @@ public class Player extends Entity{
         World_y = 22 * gp.tile_size;
         speed = 5;
         directions = "down";
+        name = "Player";
     }
 
     public void update(){
@@ -121,6 +124,10 @@ public class Player extends Entity{
             }
         }
         g2d.drawImage(image,ScreenX, ScreenY,gp.tile_size,gp.tile_size,null);
+        if (debug) {
+            g2d.setColor(Color.red);
+            g2d.drawRect(ScreenX + solidArea.x, ScreenY + solidArea.y, solidArea.width, solidArea.height);
+        }
 
     }
 
@@ -149,7 +156,7 @@ public class Player extends Entity{
             gp.playSpecialEffects(2);
             gp.Obj[obj_index] = null;
             woodScore++;
-            System.out.println("Collected wood : "+ woodScore);
+            gp.ui.showMessage("You acquired "+ objName.substring(0,objName.length()-4)+ " X1");
         }
 
         if (objName.equals("PowerShow#003")) {
