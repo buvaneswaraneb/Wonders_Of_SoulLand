@@ -34,14 +34,12 @@ public class GamePanel extends JPanel implements Runnable{
     public Player player = new Player(this,key_handler);
     TileManager tileManager = new TileManager(this);
 
-    //collision
+    //System
     public CollisonEngine collisonEngine = new CollisonEngine(this);
-
-    //object
-    public SuperObject[] Obj = new SuperObject[10]; // debug @ trail
-
-    //AssestsSetter
+    public SuperObject[] Obj = new SuperObject[10]; // debug @ trail @limit
     public AssestsSetter aSetter = new AssestsSetter(this);
+    public Sound sound = new Sound();
+    public Sound music = new Sound();
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(screen_width,screen_height));
@@ -94,6 +92,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void setUpGame(){
         aSetter.setObjects();
+        playMusic(1);
     }
 
     private void update(){
@@ -113,4 +112,22 @@ public class GamePanel extends JPanel implements Runnable{
         player.draw(g2d);
         g2d.dispose();
     }
+
+
+    public void playMusic(int i){
+       music.setFile(i);
+       music.play();
+       music.loop();
+    }
+
+    public void stopMusic(){
+        music.stop();
+    }
+
+    public void playSpecialEffects(int i){
+        sound.setFile(i);
+        sound.play();
+    }
+
+
 }

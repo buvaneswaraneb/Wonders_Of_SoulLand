@@ -1,7 +1,8 @@
 package Main;
 
 import Objects.GreenStick_1;
-import Objects.GreenStick_2;
+import Objects.Dried_branch_2;
+import Objects.PowerShoe_3;
 
 public class AssestsSetter {
     GamePanel gp;
@@ -18,9 +19,14 @@ public class AssestsSetter {
         gp.Obj[1].worldX = 19 * gp.tile_size;
         gp.Obj[1].worldY = 5 * gp.tile_size;
 
-        gp.Obj[2] = new GreenStick_2();
+        gp.Obj[2] = new Dried_branch_2();
         gp.Obj[2].worldX = 25 * gp.tile_size;
         gp.Obj[2].worldY = 20 * gp.tile_size;
+
+
+        gp.Obj[3] = new PowerShoe_3();
+        gp.Obj[3].worldX = 24 * gp.tile_size;
+        gp.Obj[3].worldY = 20 * gp.tile_size;
     }
 
 }

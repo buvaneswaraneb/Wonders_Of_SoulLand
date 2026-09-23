@@ -10,7 +10,6 @@ public class CollisonEngine {
 
 
     private boolean isSolid(int row , int col){
-
         // map
         int side1 =  gp.tileManager.map[row][col];
         boolean ismap = gp.tileManager.tiles[side1].collision;
@@ -21,7 +20,7 @@ public class CollisonEngine {
         return ismap || isOverlay;
     }
 
-    public void Check_tile(Entity entity){
+    public void check_tile(Entity entity){
 
         // solid rectangle world coordinates
         int left_side_world_x = entity.World_x + entity.solidArea.x;
@@ -52,7 +51,7 @@ public class CollisonEngine {
             }
             case "left":{
                 entity_left_col = (left_side_world_x - entity.speed) / gp.tile_size;
-                if(isSolid(entity_top_row,entity_left_col)|| isSolid(entity_bottom_row,entity_left_col)){
+                if(isSolid(entity_top_row,entity_left_col) || isSolid(entity_bottom_row,entity_left_col)){
                     entity.collisionOn = true;
                 }
                 break;
@@ -65,10 +64,75 @@ public class CollisonEngine {
                 break;
             }
         }
+    }
 
 
+    public int checkObject(Entity entity , Boolean player){
+
+        int index = Integer.MAX_VALUE;
+
+        for(int i = 0 ; i < gp.Obj.length; i++){
+            if (gp.Obj[i] == null) continue;
+
+            // bring the entity solid area to the player
+            entity.solidArea.x = entity.World_x + entity.solidArea.x;
+            entity.solidArea.y = entity.World_y + entity.solidArea.y;
+
+            // bring the objects solid area according the position of the object in the world map
+            gp.Obj[i].solidArea.x = gp.Obj[i].worldX + gp.Obj[i].solidArea.x;
+            gp.Obj[i].solidArea.y = gp.Obj[i].worldY + gp.Obj[i].solidArea.y;
 
 
+            switch (entity.directions){
+                case "up":{
+                    entity.solidArea.y -= entity.speed;
+                    if (entity.solidArea.intersects(gp.Obj[i].solidArea)){
+                        if (gp.Obj[i].collisionOn) entity.collisionOn = true;
+                        if (player) index = i;
+                        System.out.println("collison on " + entity.directions);
+                    }
+                    break;
+                }
+                case "down":{
+                    entity.solidArea.y += entity.speed;
+                    if (entity.solidArea.intersects(gp.Obj[i].solidArea)){
+                        if (gp.Obj[i].collisionOn) entity.collisionOn = true;
+                        if (player) index = i;
+                        System.out.println("collison on " + entity.directions);
+                    }
+                    break;
+                }
+                case "left":{
+                    entity.solidArea.x -= entity.speed;
+                    if (entity.solidArea.intersects(gp.Obj[i].solidArea)){
+                        if (gp.Obj[i].collisionOn) entity.collisionOn = true;
+                        if (player) index = i;
+                        System.out.println("collison on " + entity.directions);
+                    }
+                    break;
+                }
+                case "right":{
+                    entity.solidArea.x += entity.speed;
+                    if (entity.solidArea.intersects(gp.Obj[i].solidArea)){
+                        if (gp.Obj[i].collisionOn) entity.collisionOn = true;
+                        if (player) index = i;
+                        System.out.println("collison on " + entity.directions);
+                    }
+                    break;
+                }
+            }
+
+            // reset the solid area of the both player and the entity
+
+            entity.solidArea.x = entity.solidDefaultAreaX;
+            entity.solidArea.y = entity.solidDefaultAreaY;
+
+            gp.Obj[i].solidArea.x = gp.Obj[i].soilDefaultAreaX;
+            gp.Obj[i].solidArea.y = gp.Obj[i].getSoilDefaultAreaY;
+
+        }
+
+        return  index;
     }
 
 

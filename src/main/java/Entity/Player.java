@@ -15,6 +15,7 @@ public class Player extends Entity{
     int sprite_length = 6;
     public final int ScreenX;
     public final int ScreenY;
+    private int woodScore = 0;
 
     public Player(GamePanel gp , KeyHandler key_handler){
         this.gp = gp;
@@ -28,6 +29,10 @@ public class Player extends Entity{
         solidArea = new Rectangle(); // inner solid area
         solidArea.x = 9;
         solidArea.y = 17;
+
+        solidDefaultAreaX = solidArea.x;
+        solidDefaultAreaY = solidArea.y;
+
         solidArea.height = 24;
         solidArea.width = 30;
 
@@ -57,9 +62,13 @@ public class Player extends Entity{
             directions = "right";
         }
 
-
+        // check the collision between the tiles
         collisionOn = false;
-        gp.collisonEngine.Check_tile(this);
+        gp.collisonEngine.check_tile(this);
+
+        // checking the collision between the objects
+        int objIndex = gp.collisonEngine.checkObject(this,true);
+        pickUpObj(objIndex);
 
         if(!collisionOn){
             switch (directions){
@@ -103,9 +112,8 @@ public class Player extends Entity{
                 break;
             }
             case "left": {
-                image = right_walking.get(spite_number);
-                g2d.drawImage(image,ScreenX, ScreenY,-gp.tile_size,gp.tile_size,null);
-                return;
+                image = left_walking.get(spite_number);
+                break;
             }
             case "right": {
                 image = right_walking.get(spite_number);
@@ -121,10 +129,35 @@ public class Player extends Entity{
             getSprites(6,"up/up_walking_",up_walking);
             getSprites(6,"down/down_walking_",down_walking);
             getSprites(6,"right/right_walking_",right_walking);
+
+            for(BufferedImage image : right_walking){
+                left_walking.add(mirrorVertical(image));
+            }
         }
         catch (IOException e){
             e.printStackTrace();
         }
+    }
+
+
+    private void pickUpObj(int obj_index){
+        if (obj_index == Integer.MAX_VALUE) return;
+
+        String objName = gp.Obj[obj_index].name;
+
+        if(objName.equals("dried_branch#002") || objName.equals("greenStick#001")){
+            gp.playSpecialEffects(2);
+            gp.Obj[obj_index] = null;
+            woodScore++;
+            System.out.println("Collected wood : "+ woodScore);
+        }
+
+        if (objName.equals("PowerShow#003")) {
+            gp.playSpecialEffects(0);
+            gp.Obj[obj_index] = null;
+            speed += 3;
+        }
+
     }
 
     private void getSprites(int sprite_length, String sprite, ArrayList<BufferedImage> arr ) throws IOException{

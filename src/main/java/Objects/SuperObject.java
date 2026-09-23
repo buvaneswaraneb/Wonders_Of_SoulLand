@@ -10,7 +10,9 @@ public class SuperObject {
     public String name;
     public int worldX, worldY;
     public boolean collisionOn = false;
-
+    public Rectangle solidArea = new Rectangle(0,0,48,48);
+    public int soilDefaultAreaX = 0;
+    public int getSoilDefaultAreaY = 0;
 
     public void draw(GamePanel gp, Graphics2D g2d) {
         int ScreenX = worldX - gp.player.World_x + gp.player.ScreenX;
