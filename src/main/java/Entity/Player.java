@@ -3,8 +3,9 @@ package Entity;
 
 import Main.GamePanel;
 import Main.KeyHandler;
+
+
 import javax.imageio.ImageIO;
-import javax.management.ObjectName;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -17,7 +18,6 @@ public class Player extends Entity{
     public final int ScreenX;
     public final int ScreenY;
     public int woodScore = 0;
-
 
     public Player(GamePanel gp , KeyHandler key_handler){
         this.gp = gp;
@@ -123,7 +123,7 @@ public class Player extends Entity{
                 break;
             }
         }
-        g2d.drawImage(image,ScreenX, ScreenY,gp.tile_size,gp.tile_size,null);
+        g2d.drawImage(image,ScreenX, ScreenY,null);
         if (debug) {
             g2d.setColor(Color.red);
             g2d.drawRect(ScreenX + solidArea.x, ScreenY + solidArea.y, solidArea.width, solidArea.height);
@@ -172,8 +172,9 @@ public class Player extends Entity{
        for(int i = 1 ; i <= sprite_length ; i++){
            String path = "/Player/" + sprite + i + ".png";
            var stream = getClass().getResourceAsStream(path);
-           if (stream == null) System.out.println(sprite + i + " Sprite not found");
+           if (stream == null) System.out.println("Character Image is not Loading");
            image = ImageIO.read(stream);
+           image = gp.util.scale(image,gp.tile_size,gp.tile_size);
            arr.add(image);
        }
     }

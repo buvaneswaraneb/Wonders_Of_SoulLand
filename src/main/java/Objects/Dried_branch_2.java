@@ -6,12 +6,13 @@ import javax.imageio.ImageIO;
 import java.io.IOException;
 
 public class Dried_branch_2 extends SuperObject{
-    GamePanel gp;
     public Dried_branch_2(){
-        this.gp = gp;
+      tile_height = 48;
+      tile_width = 48;
         name = "dried_branch#002";
         try{
-            Image = ImageIO.read(getClass().getResourceAsStream("/Objects/dried_branch_2.png"));
+            var img = ImageIO.read(getClass().getResourceAsStream("/Objects/dried_branch_2.png"));
+            Image = util.scale(img,tile_width,tile_height);
         }catch (IOException e){
             e.printStackTrace();
         }

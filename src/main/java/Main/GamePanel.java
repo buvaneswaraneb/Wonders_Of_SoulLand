@@ -28,21 +28,23 @@ public class GamePanel extends JPanel implements Runnable{
     public final int world_height = max_world_col * tile_size;
     public final int world_width = max_world_row * tile_size;
 
+    //System
     Thread gameThread;
     KeyHandler key_handler = new KeyHandler();
-
-    //Entities
-    public Player player = new Player(this,key_handler);
-    public Traveller traveller = new Traveller(this);
-    TileManager tileManager = new TileManager(this);
-
-    //System
+    public Utility util = new Utility();
     public CollisonEngine collisonEngine = new CollisonEngine(this);
     public SuperObject[] Obj = new SuperObject[10]; // debug @ trail @limit
     public AssestsSetter aSetter = new AssestsSetter(this);
     public Sound sound = new Sound();
     public Sound music = new Sound();
     public UI ui = new UI(this);
+
+
+    //Entities
+    public Player player = new Player(this,key_handler);
+    public Traveller traveller = new Traveller(this);
+    TileManager tileManager = new TileManager(this);
+
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(screen_width,screen_height));
@@ -52,7 +54,7 @@ public class GamePanel extends JPanel implements Runnable{
         this.setFocusable(true);
 
         //debug
-        debug();
+        //debug();
     }
 
     public void startGameThread(){

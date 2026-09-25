@@ -22,11 +22,17 @@ public class Traveller extends Entity{
         World_x = 25 * gp.tile_size;
         World_y = 22 * gp.tile_size;
         try {
-            left_walking.add(ImageIO.read(getClass().getResourceAsStream("/Traveller/character-idle.png")));
-            left_walking.add(ImageIO.read((getClass().getResourceAsStream("/Traveller/character-idle1.png"))));
+            var Image = ImageIO.read(getClass().getResourceAsStream("/Traveller/character-idle.png"));
+            left_walking.add(gp.util.scale(Image,gp.tile_size,gp.tile_size));
 
-            right_walking.add(ImageIO.read((getClass().getResourceAsStream("/Traveller/character-idle-cover.png"))));
-            right_walking.add(ImageIO.read((getClass().getResourceAsStream("/Traveller/character-idle-cover-1.png"))));
+            Image = ImageIO.read(getClass().getResourceAsStream("/Traveller/character-idle1.png"));
+            left_walking.add(gp.util.scale(Image,gp.tile_size,gp.tile_size));
+
+            Image = ImageIO.read(getClass().getResourceAsStream("/Traveller/character-idle-cover.png"));
+            right_walking.add(gp.util.scale(Image,gp.tile_size,gp.tile_size));
+
+            Image = ImageIO.read(getClass().getResourceAsStream("/Traveller/character-idle-cover-1.png"));
+            right_walking.add(gp.util.scale(Image,gp.tile_size,gp.tile_size));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -59,8 +65,8 @@ public class Traveller extends Entity{
                 World_y + gp.tile_size > gp.player.World_y - gp.player.ScreenY &&
                 World_y - gp.tile_size < gp.player.World_y + gp.player.ScreenY) {
 
-            g2d.drawImage(image, ScreenX, ScreenY, gp.tile_size, gp.tile_size, null);
-            g2d.drawImage(image_cover, ScreenX+3, ScreenY-5, gp.tile_size, gp.tile_size, null);
+            g2d.drawImage(image, ScreenX, ScreenY, null);
+            g2d.drawImage(image_cover, ScreenX+3, ScreenY-5, null);
         }
 
     }

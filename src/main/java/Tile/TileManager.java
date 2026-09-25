@@ -80,7 +80,7 @@ public class TileManager{
         var stream = getClass().getResourceAsStream(path);
         if (stream == null) System.out.println("Tile : " + path +" Not Found");
         try {
-            tiles[idx].tile_image = ImageIO.read(stream);
+            tiles[idx].tile_image = gp.util.scale(ImageIO.read(stream), gp.tile_size, gp.tile_size);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -141,7 +141,7 @@ public class TileManager{
                         worldY + gp.tile_size > gp.player.World_y - gp.player.ScreenY &&
                         worldY - gp.tile_size < gp.player.World_y + gp.player.ScreenY) {
 
-                    g2d.drawImage(image,ScreenX,ScreenY,gp.tile_size, gp.tile_size,null);}
+                    g2d.drawImage(image,ScreenX,ScreenY,null);}
                 world_col++;
 
                 if(world_col == gp.max_world_col){
@@ -180,7 +180,7 @@ public class TileManager{
                             worldY + gp.tile_size > gp.player.World_y - gp.player.ScreenY &&
                             worldY - gp.tile_size < gp.player.World_y + gp.player.ScreenY) {
 
-                        g2d.drawImage(image, ScreenX, ScreenY, gp.tile_size, gp.tile_size, null);
+                        g2d.drawImage(image, ScreenX, ScreenY,null);
                     }
                 }
                 world_col++;
