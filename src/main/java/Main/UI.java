@@ -19,6 +19,8 @@ public class UI {
     private boolean messageOn = false;
     private int messageCounter = 0;
 
+    public String currentDialogue = " ";
+
     int x;
     int y;
 
@@ -46,13 +48,19 @@ public class UI {
         g2d.setColor(Color.white);
         g2d.setFont(pixel_font);
 
+
+
+        // play state
         if(gp.gameState == gp.playState){
             drawCoordinates(g2d);
-            //@implement
         }
+        //pause state
         else if(gp.gameState == gp.pauseState){
             drawPauseScreen(g2d);
-            //@implement
+        }
+        //dialogue state
+        else if (gp.gameState == gp.dialogueState){
+            drawDialogueBox(g2d);
         }
     }
 
@@ -82,6 +90,31 @@ public class UI {
 
         g2d.drawString( "X: "+x+" Y: "+y ,gp.screen_width - gp.tile_size*3,40);
         g2d.drawString( "X: "+x/gp.tile_size+" Y: "+y/gp.tile_size ,gp.screen_width - gp.tile_size*3,60);
+    }
+
+
+    public void drawDialogueBox(Graphics2D g2d){
+        int x = gp.tile_size /2;
+        int y = gp.screen_height - gp.tile_size * 3;
+        int height = gp.tile_size*3;
+        int width = gp.screen_width - gp.tile_size;
+
+        drawPanel(g2d,x,y,width,height);
+
+
+        g2d.setColor(Color.WHITE);
+        g2d.drawString(currentDialogue,x+(int)(gp.tile_size/2),y+(gp.tile_size/2));
+    }
+
+
+    private void drawPanel(Graphics2D g2d,int x, int y, int width , int height){
+        Color black = new Color(0,0,0,220);
+        g2d.setColor(black);
+        g2d.fillRoundRect(x,y,width,height,35,35);
+
+        g2d.setColor(Color.WHITE);
+        g2d.setStroke(new BasicStroke(5));
+        g2d.drawRoundRect(x,y,width-3,height,35,35);
     }
 
 

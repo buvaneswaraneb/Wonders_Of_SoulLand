@@ -2,6 +2,8 @@ package Main;
 
 import Entity.Entity;
 
+import java.awt.*;
+
 public class CollisonEngine {
     GamePanel gp;
     public CollisonEngine(GamePanel gp){
@@ -184,6 +186,7 @@ public class CollisonEngine {
                     break;
                 }
             }
+
             // reset the solid area of the both player and the entity
             entity.solidArea.x = entity.solidDefaultAreaX;
             entity.solidArea.y = entity.solidDefaultAreaY;
@@ -191,9 +194,9 @@ public class CollisonEngine {
             targets[i].solidArea.x = targets[i].solidDefaultAreaX;
             targets[i].solidArea.y = targets[i].solidDefaultAreaY;
         }
+
         return  index;
     }
-
 
 
     public void checkPlayer(Entity entity){

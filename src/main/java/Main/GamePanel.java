@@ -33,10 +33,14 @@ public class GamePanel extends JPanel implements Runnable{
     public int gameState;
     public final int pauseState = 0;
     public final int playState = 1;
+    public final int dialogueState = 2;
+
+    public boolean dialogueTrigger = false;
+
 
     //System
     Thread gameThread;
-    KeyHandler key_handler = new KeyHandler(this);
+    public KeyHandler key_handler = new KeyHandler(this);
     public Utility util = new Utility();
     public CollisonEngine collisonEngine = new CollisonEngine(this);
     public AssestsSetter aSetter = new AssestsSetter(this);
@@ -61,7 +65,7 @@ public class GamePanel extends JPanel implements Runnable{
         this.setFocusable(true);
 
         //debug
-        //debug();
+        debug();
     }
 
     public void startGameThread(){
@@ -124,6 +128,7 @@ public class GamePanel extends JPanel implements Runnable{
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
+
         tileManager.draw(g2d);
         // display Objects
         for(int i = 0; i < 10; i++){
@@ -143,6 +148,8 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
 
+
+    //music
     public void playMusic(int i){
        music.setFile(i);
        music.play();

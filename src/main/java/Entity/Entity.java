@@ -7,7 +7,7 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-public class Entity {
+public abstract class Entity {
     public int World_x , World_y;
     public int speed;
     public String directions;
@@ -81,5 +81,8 @@ public class Entity {
         AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
         return op.filter(inputImage, null);
     }
+
+
+    public abstract String dialogue();
 
 }

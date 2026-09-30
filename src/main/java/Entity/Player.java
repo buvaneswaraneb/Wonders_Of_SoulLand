@@ -46,12 +46,12 @@ public class Player extends Entity{
         World_y = 22 * gp.tile_size;
         speed = 5;
         directions = "down";
-        name = "Player";
+        name = "Soul";
     }
 
     public void update(){
 
-        if ( !key_H.upPressed && !key_H.downPressed && !key_H.leftPressed && !key_H.rightPressed)  return;
+        if ( key_H.upPressed || key_H.downPressed || key_H.leftPressed || key_H.rightPressed){
 
         if (key_H.upPressed){
             directions  = "up";
@@ -66,44 +66,47 @@ public class Player extends Entity{
             directions = "right";
         }
 
-        // check the collision between the tiles
-        collisionOn = false;
-        gp.collisonEngine.check_tile(this);
+            if(!collisionOn){
+                switch (directions){
+                    case "up":{
+                        World_y -= speed;
+                        break;
+                    }
+                    case "down":{
+                        World_y += speed;
+                        break;
+                    }
+                    case "left":{
+                        World_x -= speed;
+                        break;
+                    }
+                    case "right":{
+                        World_x += speed;
+                        break;
+                    }
+                }
+            }
 
+            sprite_delay++;
+            if(sprite_delay > 12){
+                spite_number++;
+                if (spite_number >= sprite_length) spite_number = 0;
+                sprite_delay = 0;
+            }
+
+        }// movement logic
+
+
+        collisionOn = false;
+        // check the collision between the tiles
+        gp.collisonEngine.check_tile(this);
         // checking the collision between the objects
         int objIndex = gp.collisonEngine.checkObject(this,true);
         pickUpObj(objIndex);
-
         int NpcIndex = gp.collisonEngine.checkEntity(this,gp.Npc);
+        interactNpc(NpcIndex);
 
 
-        if(!collisionOn){
-            switch (directions){
-                case "up":{
-                    World_y -= speed;
-                    break;
-                }
-                case "down":{
-                    World_y += speed;
-                    break;
-                }
-                case "left":{
-                    World_x -= speed;
-                    break;
-                }
-                case "right":{
-                    World_x += speed;
-                    break;
-                }
-            }
-        }
-
-        sprite_delay++;
-        if(sprite_delay > 12){
-            spite_number++;
-            if (spite_number >= sprite_length) spite_number = 0;
-            sprite_delay = 0;
-        }
     }
 
     public void draw(Graphics2D g2d){
@@ -134,6 +137,11 @@ public class Player extends Entity{
 
     }
 
+    @Override
+    public String dialogue() {
+        return "";
+    }
+
     private void getPlayerImage(){
         try{
             getSprites(6,"up/up_walking_",up_walking);
@@ -148,6 +156,24 @@ public class Player extends Entity{
             e.printStackTrace();
         }
     }
+
+
+    // Dialogue and Npc Integeractions
+
+    private void interactNpc(int index){
+        if (index == Integer.MAX_VALUE) {
+            gp.gameState = gp.playState;
+            return;
+        }
+
+        gp.gameState = gp.dialogueState;
+        String dialogue = gp.Npc[index].dialogue();
+        gp.ui.currentDialogue = dialogue;
+
+
+
+    }
+
 
 
     private void pickUpObj(int obj_index){
