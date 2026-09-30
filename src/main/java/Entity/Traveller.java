@@ -14,34 +14,42 @@ public class Traveller extends Entity{
     BufferedImage image_cover;
 
     public Traveller(GamePanel gp){
+        super(gp);
         this.gp = gp;
         setDefault();
+        directions = "left";
+
     }
 
     private void setDefault(){
-        World_x = 25 * gp.tile_size;
-        World_y = 22 * gp.tile_size;
+        collisionOn = false;
         try {
-            var Image = ImageIO.read(getClass().getResourceAsStream("/Traveller/character-idle.png"));
+            var Image = ImageIO.read(getClass().getResourceAsStream("/NPC/Traveller/character-idle.png"));
             left_walking.add(gp.util.scale(Image,gp.tile_size,gp.tile_size));
 
-            Image = ImageIO.read(getClass().getResourceAsStream("/Traveller/character-idle1.png"));
+            Image = ImageIO.read(getClass().getResourceAsStream("/NPC/Traveller/character-idle1.png"));
             left_walking.add(gp.util.scale(Image,gp.tile_size,gp.tile_size));
 
-            Image = ImageIO.read(getClass().getResourceAsStream("/Traveller/character-idle-cover.png"));
+            Image = ImageIO.read(getClass().getResourceAsStream("/NPC/Traveller/character-idle-cover.png"));
             right_walking.add(gp.util.scale(Image,gp.tile_size,gp.tile_size));
 
-            Image = ImageIO.read(getClass().getResourceAsStream("/Traveller/character-idle-cover-1.png"));
+            Image = ImageIO.read(getClass().getResourceAsStream("/NPC/Traveller/character-idle-cover-1.png"));
             right_walking.add(gp.util.scale(Image,gp.tile_size,gp.tile_size));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
+    @Override
     public void update(){
 
-        spriteDelay++;
+        collisionOn = false;
+        gp.collisonEngine.checkPlayer(this);
 
+        if (collisionOn) {
+            System.out.println("the entity detected the player"); // still the npc isn't in motion npc doesnt interact with player
+        }
+        spriteDelay++;
         if(spriteDelay >= 30){
             spite_number++;
             spriteDelay = 0;
@@ -52,6 +60,8 @@ public class Traveller extends Entity{
 
     }
 
+
+    @Override
     public void draw(Graphics2D g2d){
         image = left_walking.get(spite_number);
         image_cover = right_walking.get(spite_number);

@@ -21,6 +21,7 @@ public class Player extends Entity{
 
     public Player(GamePanel gp , KeyHandler key_handler){
         this.gp = gp;
+        super(gp);
         this.key_H = key_handler;
         setDefaultPlayerValues();
         getPlayerImage();
@@ -73,6 +74,9 @@ public class Player extends Entity{
         int objIndex = gp.collisonEngine.checkObject(this,true);
         pickUpObj(objIndex);
 
+        int NpcIndex = gp.collisonEngine.checkEntity(this,gp.Npc);
+
+
         if(!collisionOn){
             switch (directions){
                 case "up":{
@@ -104,7 +108,6 @@ public class Player extends Entity{
 
     public void draw(Graphics2D g2d){
         BufferedImage image = null;
-        Boolean mirror = false;
         switch (directions) {
             case "up": {
                 image = up_walking.get(spite_number);

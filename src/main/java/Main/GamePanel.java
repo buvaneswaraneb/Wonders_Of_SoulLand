@@ -1,5 +1,6 @@
 package Main;
 
+import Entity.Entity;
 import Entity.Traveller;
 import Objects.SuperObject;
 import Tile.TileManager;
@@ -28,17 +29,23 @@ public class GamePanel extends JPanel implements Runnable{
     public final int world_height = max_world_col * tile_size;
     public final int world_width = max_world_row * tile_size;
 
+    // game state
+    public int gameState;
+    public final int pauseState = 0;
+    public final int playState = 1;
+
     //System
     Thread gameThread;
-    KeyHandler key_handler = new KeyHandler();
+    KeyHandler key_handler = new KeyHandler(this);
     public Utility util = new Utility();
     public CollisonEngine collisonEngine = new CollisonEngine(this);
-    public SuperObject[] Obj = new SuperObject[10]; // debug @ trail @limit
     public AssestsSetter aSetter = new AssestsSetter(this);
     public Sound sound = new Sound();
     public Sound music = new Sound();
     public UI ui = new UI(this);
 
+    public SuperObject[] Obj = new SuperObject[10]; // debug @ trail @limit
+    public Entity[] Npc = new Entity[10];
 
     //Entities
     public Player player = new Player(this,key_handler);
@@ -99,13 +106,19 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void setUpGame(){
         aSetter.setObjects();
+        aSetter.setNpcs();
         playMusic(1);
+        gameState = playState;
     }
 
     private void update(){
        // update player
+        if(gameState == pauseState) return;
         player.update();
-        traveller.update();
+        for(Entity npc : Npc){
+            if(npc == null) continue;
+            npc.update();
+        }
     }
 
     public void paintComponent(Graphics g){
@@ -117,9 +130,15 @@ public class GamePanel extends JPanel implements Runnable{
             if(Obj[i] == null) continue;
             Obj[i].draw(this,g2d);
         }
-        ui.draw(g2d);
+
+        // draw NPC
+        for(int i = 0; i < Npc.length; i++){
+            if(Npc[i] == null) continue;
+            Npc[i].draw(g2d);
+        }
         player.draw(g2d);
         traveller.draw(g2d);
+        ui.draw(g2d);
         g2d.dispose();
     }
 

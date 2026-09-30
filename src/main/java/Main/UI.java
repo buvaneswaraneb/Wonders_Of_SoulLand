@@ -14,6 +14,7 @@ public class UI {
     Font pixel_font;
     BufferedImage wood_image;
     SuperObject wood;
+    Graphics2D g2d;
     private String message = "";
     private boolean messageOn = false;
     private int messageCounter = 0;
@@ -41,27 +42,47 @@ public class UI {
     }
 
     public void draw(Graphics2D g2d){
+        this.g2d = g2d;
+        g2d.setColor(Color.white);
+        g2d.setFont(pixel_font);
 
+        if(gp.gameState == gp.playState){
+            drawCoordinates(g2d);
+            //@implement
+        }
+        else if(gp.gameState == gp.pauseState){
+            drawPauseScreen(g2d);
+            //@implement
+        }
+    }
+
+
+    public int getXforCenteredText(String txt){
+        int length = (int)g2d.getFontMetrics().getStringBounds(txt,g2d).getWidth();
+        int x  = gp.screen_width/2 - length/2;
+        return x;
+    }
+
+
+    public void drawPauseScreen(Graphics2D g2d){
+        String text = "Paused";
+        g2d.setFont(g2d.getFont().deriveFont(80f));
+        int x = getXforCenteredText(text);
+        int y = gp.screen_height/2;
+        g2d.drawString(text,x,y);
+    }
+
+
+    public void drawCoordinates(Graphics2D g2d){
         g2d.setFont(pixel_font);
         g2d.setColor(Color.white);
-        g2d.drawImage(wood_image,5,10,gp.tile_size,gp.tile_size,null);
-        g2d.drawString(" X"+gp.player.woodScore , 40,40);
 
         x = gp.player.World_x;
         y = gp.player.World_y;
 
         g2d.drawString( "X: "+x+" Y: "+y ,gp.screen_width - gp.tile_size*3,40);
         g2d.drawString( "X: "+x/gp.tile_size+" Y: "+y/gp.tile_size ,gp.screen_width - gp.tile_size*3,60);
-
-        if(messageOn == true){
-            g2d.setFont(pixel_font.deriveFont(15f));
-            g2d.drawString(message,10, 150);
-            messageCounter++;
-
-            if(messageCounter > 120){
-                messageOn = false;
-                messageCounter = 0;
-            }
-        }
     }
+
+
 }
