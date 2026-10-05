@@ -88,14 +88,13 @@ public class Player extends Entity{
             }
 
             sprite_delay++;
-            if(sprite_delay > 12){
+            if(sprite_delay > 6){
                 spite_number++;
                 if (spite_number >= sprite_length) spite_number = 0;
                 sprite_delay = 0;
             }
 
         }// movement logic
-
 
         collisionOn = false;
         // check the collision between the tiles
@@ -105,7 +104,6 @@ public class Player extends Entity{
         pickUpObj(objIndex);
         int NpcIndex = gp.collisonEngine.checkEntity(this,gp.Npc);
         interactNpc(NpcIndex);
-
 
     }
 
@@ -134,7 +132,6 @@ public class Player extends Entity{
             g2d.setColor(Color.red);
             g2d.drawRect(ScreenX + solidArea.x, ScreenY + solidArea.y, solidArea.width, solidArea.height);
         }
-
     }
 
     @Override
@@ -161,6 +158,8 @@ public class Player extends Entity{
     // Dialogue and Npc Integeractions
 
     private void interactNpc(int index){
+        if (gp.gameState == gp.titleState) return;
+
         if (index == Integer.MAX_VALUE) {
             gp.gameState = gp.playState;
             return;
@@ -169,9 +168,7 @@ public class Player extends Entity{
         gp.gameState = gp.dialogueState;
         String dialogue = gp.Npc[index].dialogue();
         gp.ui.currentDialogue = dialogue;
-
-
-
+        
     }
 
 

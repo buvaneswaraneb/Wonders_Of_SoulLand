@@ -5,12 +5,10 @@ import Objects.SuperObject;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.io.InputStream;
 
 public class UI {
     GamePanel gp;
-    Font load_font;
     Font pixel_font;
     BufferedImage wood_image;
     SuperObject wood;
@@ -31,8 +29,8 @@ public class UI {
         this.wood_image = wood.Image;
         try {
             InputStream is = getClass().getResourceAsStream("/Font/pixel_font.ttf");
-            load_font = Font.createFont(Font.TRUETYPE_FONT,is);
-            pixel_font = load_font.deriveFont(Font.PLAIN,20);
+            pixel_font = Font.createFont(Font.TRUETYPE_FONT,is);
+            pixel_font = pixel_font.deriveFont(Font.PLAIN,20);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -45,9 +43,10 @@ public class UI {
 
     public void draw(Graphics2D g2d){
         this.g2d = g2d;
-        g2d.setColor(Color.white);
-        g2d.setFont(pixel_font);
 
+        g2d.setFont(pixel_font);
+        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        g2d.setColor(Color.white);
 
 
         // play state
@@ -62,6 +61,9 @@ public class UI {
         else if (gp.gameState == gp.dialogueState){
             drawDialogueBox(g2d);
         }
+        else if(gp.gameState == gp.titleState){
+            drawTitleScreen(g2d);
+        }
     }
 
 
@@ -74,10 +76,21 @@ public class UI {
 
     public void drawPauseScreen(Graphics2D g2d){
         String text = "Paused";
+        System.out.println("paused");
         g2d.setFont(g2d.getFont().deriveFont(80f));
         int x = getXforCenteredText(text);
         int y = gp.screen_height/2;
         g2d.drawString(text,x,y);
+    }
+
+
+    public void drawTitleScreen(Graphics2D g2d){
+        String gameTitle = "Wonders of SoulLand";
+        int x = 10;
+        int y = gp.tile_size;
+        g2d.setFont(g2d.getFont().deriveFont(80f));
+        g2d.drawString(gameTitle,x,y);
+
     }
 
 
@@ -111,7 +124,6 @@ public class UI {
         Color black = new Color(0,0,0,220);
         g2d.setColor(black);
         g2d.fillRoundRect(x,y,width,height,35,35);
-
         g2d.setColor(Color.WHITE);
         g2d.setStroke(new BasicStroke(5));
         g2d.drawRoundRect(x,y,width-3,height,35,35);

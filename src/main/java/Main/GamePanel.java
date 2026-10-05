@@ -9,9 +9,8 @@ import Entity.Player;
 import javax.swing.*;
 import java.awt.*;
 
-
 public class GamePanel extends JPanel implements Runnable{
-    final int FPS = 60;
+    final int FPS = 30;
 
     final int pixel = 16; // pixel size 16 x 16
     final int scale = 3; // scale
@@ -31,12 +30,12 @@ public class GamePanel extends JPanel implements Runnable{
 
     // game state
     public int gameState;
-    public final int pauseState = 0;
-    public final int playState = 1;
-    public final int dialogueState = 2;
+    public final int pauseState = 1;
+    public final int playState = 2;
+    public final int dialogueState = 3;
+    public final int titleState = 4;
 
     public boolean dialogueTrigger = false;
-
 
     //System
     Thread gameThread;
@@ -56,10 +55,9 @@ public class GamePanel extends JPanel implements Runnable{
     public Traveller traveller = new Traveller(this);
     TileManager tileManager = new TileManager(this);
 
-
     public GamePanel(){
         this.setPreferredSize(new Dimension(screen_width,screen_height));
-        this.setBackground(Color.black);
+        this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true);
         this.addKeyListener(key_handler);
         this.setFocusable(true);
@@ -67,6 +65,15 @@ public class GamePanel extends JPanel implements Runnable{
         //debug
         debug();
     }
+
+
+    public void setUpGame(){
+        aSetter.setObjects();
+        aSetter.setNpcs();
+        playMusic(1);
+        gameState = titleState;
+    }
+
 
     public void startGameThread(){
         this.gameThread = new Thread(this);
@@ -108,13 +115,6 @@ public class GamePanel extends JPanel implements Runnable{
         }
     }
 
-    public void setUpGame(){
-        aSetter.setObjects();
-        aSetter.setNpcs();
-        playMusic(1);
-        gameState = playState;
-    }
-
     private void update(){
        // update player
         if(gameState == pauseState) return;
@@ -129,13 +129,17 @@ public class GamePanel extends JPanel implements Runnable{
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
 
+        if (gameState == titleState) {
+            //current state title state
+        }
+
+        else {
         tileManager.draw(g2d);
         // display Objects
         for(int i = 0; i < 10; i++){
             if(Obj[i] == null) continue;
             Obj[i].draw(this,g2d);
         }
-
         // draw NPC
         for(int i = 0; i < Npc.length; i++){
             if(Npc[i] == null) continue;
@@ -143,6 +147,7 @@ public class GamePanel extends JPanel implements Runnable{
         }
         player.draw(g2d);
         traveller.draw(g2d);
+        }
         ui.draw(g2d);
         g2d.dispose();
     }
