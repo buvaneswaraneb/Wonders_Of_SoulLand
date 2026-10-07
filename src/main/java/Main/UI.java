@@ -15,8 +15,9 @@ public class UI {
     Graphics2D g2d;
     private String message = "";
     private boolean messageOn = false;
-    private int messageCounter = 0;
 
+    public int currentMenu = 0;
+    public final int menuTotal = 3;
     public String currentDialogue = " ";
 
     int x;
@@ -69,7 +70,7 @@ public class UI {
 
     public int getXforCenteredText(String txt){
         int length = (int)g2d.getFontMetrics().getStringBounds(txt,g2d).getWidth();
-        int x  = gp.screen_width/2 - length/2;
+        int x  = (gp.screen_width/2) - length/2;
         return x;
     }
 
@@ -86,10 +87,84 @@ public class UI {
 
     public void drawTitleScreen(Graphics2D g2d){
         String gameTitle = "Wonders of SoulLand";
-        int x = 10;
-        int y = gp.tile_size;
-        g2d.setFont(g2d.getFont().deriveFont(80f));
+
+
+        // drawing background color for the screen
+        Color b1 = new Color(96, 108, 56);
+        Color b2 = new Color(40, 54, 24);
+        Color b3 = new Color(219, 179, 177);
+
+        // to divide these chunks into three chunks and display on the screen
+        int bg_chunk = gp.screen_width/3;
+
+        // display first chunk
+        g2d.setColor(b1);
+        g2d.fillRect(0,0,bg_chunk,gp.screen_height);
+
+        g2d.setColor(b2);
+        g2d.fillRect(bg_chunk,0,bg_chunk,gp.screen_height);
+
+        g2d.setColor(b3);
+        g2d.fillRect((bg_chunk * 2),0,bg_chunk,gp.screen_height);
+
+        g2d.setFont(g2d.getFont().deriveFont(60f));
+
+        // displays the letter background
+        g2d.setColor(Color.BLACK);
+        x = getXforCenteredText(gameTitle);
+        y = gp.tile_size*2;
+        g2d.drawString(gameTitle,x+3,y+3);
+
+        g2d.setColor(Color.WHITE);
+        x = getXforCenteredText(gameTitle);
+        y = gp.tile_size*2;
         g2d.drawString(gameTitle,x,y);
+
+        // display menu
+        g2d.setColor(Color.WHITE);
+        g2d.setFont(g2d.getFont().deriveFont(30f));
+
+        // new game
+        String newGame = "NEW GAME";
+
+        if(currentMenu == 0) newGame = "[ NEW GAME ]";
+        x = getXforCenteredText(newGame);
+        y = y + (gp.tile_size * 4);
+        g2d.drawString(newGame,x,y);
+
+
+        // continue
+        String loadGame = "LOAD GAME";
+        if(currentMenu == 1) loadGame = "[ LOAD GAME ]";
+        x = getXforCenteredText(loadGame);
+        y = y + 60 ; // here 40 is the Font Size + 40 is space Buffer
+        g2d.drawString(loadGame,x,y);
+
+        // quit game
+        String quit = "QUIT";
+        if(currentMenu == 2) quit = "[ QUIT ]";
+        x = getXforCenteredText(quit);
+        y = y + 60 ; // here 40 is the Font Size + 40 is space Buffer
+        g2d.drawString(quit,x,y);
+
+
+        // draw players
+        var image = gp.player.right_walking.get(1);
+        g2d.drawImage(image,gp.screen_width - gp.tile_size * 5, gp.tile_size * 3 , gp.tile_size * 4,gp.tile_size*5,null);
+
+        // draw bunny
+        var bunny = gp.Npc[0].left_walking.get(1);
+        var bunnyOverlay = gp.Npc[0].right_walking.get(1);
+        g2d.drawImage(bunny,9, gp.screen_height /2, gp.tile_size * 3, gp.tile_size * 4, null);
+        g2d.drawImage(bunnyOverlay,20, (gp.screen_height/2)-9, gp.tile_size * 3, gp.tile_size * 4, null);
+
+
+        if (gp.key_handler.enterPressed){
+            if (currentMenu == 0){
+                gp.gameState = gp.playState;
+            }
+        }
+
 
     }
 
@@ -113,8 +188,7 @@ public class UI {
         int width = gp.screen_width - gp.tile_size;
 
         drawPanel(g2d,x,y,width,height);
-
-
+        
         g2d.setColor(Color.WHITE);
         g2d.drawString(currentDialogue,x+(int)(gp.tile_size/2),y+(gp.tile_size/2));
     }

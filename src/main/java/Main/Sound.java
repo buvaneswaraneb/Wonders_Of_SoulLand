@@ -9,11 +9,14 @@ public class Sound {
 
     Clip clip;
     URL soundURL[] = new URL[10];
+    public boolean audioPlaying = true;
 
     public Sound(){
         soundURL[0] = getClass().getResource("/Sound/powerUP.wav");
         soundURL[1] = getClass().getResource("/Sound/background.wav");
         soundURL[2] = getClass().getResource("/Sound/wood.wav");
+        soundURL[3] = getClass().getResource("/Sound/menuSelection.wav");
+        soundURL[4] = getClass().getResource("/Sound/menuEffect.wav");
     }
 
     public void setFile(int idx){

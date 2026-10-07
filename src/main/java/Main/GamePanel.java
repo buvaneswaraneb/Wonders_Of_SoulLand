@@ -70,7 +70,7 @@ public class GamePanel extends JPanel implements Runnable{
     public void setUpGame(){
         aSetter.setObjects();
         aSetter.setNpcs();
-        playMusic(1);
+//        playMusic(1);
         gameState = titleState;
     }
 
@@ -116,12 +116,32 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     private void update(){
-       // update player
-        if(gameState == pauseState) return;
+
+        if(gameState == titleState){
+            if(key_handler.upPressed || key_handler.downPressed){
+                playSpecialEffects(4);
+            }
+            return;
+        }
+
+        if(gameState == pauseState) {
+            stopMusic();
+            if(sound.audioPlaying) {
+                music.audioPlaying = false;
+            }
+            return;
+        }
+
+        // player and npc updates
         player.update();
         for(Entity npc : Npc){
             if(npc == null) continue;
             npc.update();
+        }
+
+        if (!music.audioPlaying){
+            music.audioPlaying = true;
+            music.play();
         }
     }
 
@@ -129,24 +149,26 @@ public class GamePanel extends JPanel implements Runnable{
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
 
-        if (gameState == titleState) {
+        if (gameState == 0 || gameState == titleState) {
             //current state title state
         }
 
         else {
-        tileManager.draw(g2d);
-        // display Objects
-        for(int i = 0; i < 10; i++){
-            if(Obj[i] == null) continue;
-            Obj[i].draw(this,g2d);
-        }
-        // draw NPC
-        for(int i = 0; i < Npc.length; i++){
-            if(Npc[i] == null) continue;
-            Npc[i].draw(g2d);
-        }
-        player.draw(g2d);
-        traveller.draw(g2d);
+            tileManager.draw(g2d);
+
+            // display Objects
+            for(int i = 0; i < 10; i++){
+                if(Obj[i] == null) continue;
+                Obj[i].draw(this,g2d);
+            }
+
+            // draw NPC
+            for(int i = 0; i < Npc.length; i++){
+                if(Npc[i] == null) continue;
+                Npc[i].draw(g2d);
+            }
+
+            player.draw(g2d);
         }
         ui.draw(g2d);
         g2d.dispose();

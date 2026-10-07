@@ -18,10 +18,10 @@ public abstract class Entity {
     GamePanel gp;
 
     //animations
-    ArrayList<BufferedImage> up_walking = new ArrayList<>();
-    ArrayList<BufferedImage> down_walking = new ArrayList<>();
-    ArrayList<BufferedImage> right_walking = new ArrayList<>();
-    ArrayList<BufferedImage> left_walking = new ArrayList<>();
+    public ArrayList<BufferedImage> up_walking = new ArrayList<>();
+    public ArrayList<BufferedImage> down_walking = new ArrayList<>();
+    public ArrayList<BufferedImage> right_walking = new ArrayList<>();
+    public ArrayList<BufferedImage> left_walking = new ArrayList<>();
 
     // collision
     public Rectangle solidArea = new Rectangle(0,0,48,48);
