@@ -3,9 +3,8 @@
 
 
 # Demo 
-
+![](Images/demo_game_title_screen.png)
 ![](Images/demo_game_screen.png)
-
 ![](Images/demo_game_screen_2.png)
 ---
 # Assets
