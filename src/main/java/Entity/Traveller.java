@@ -23,8 +23,6 @@ public class Traveller extends Entity{
         setDefault();
         setDialogues();
         directions = "left";
-
-
     }
 
 
@@ -41,6 +39,7 @@ public class Traveller extends Entity{
         }
         if (dialogueIndex > 4){
             gp.player.directions = "down";
+            gp.currentBiome = gp.biomeManager.getBiome("B002");
             gp.gameState = gp.playState;
             dialogueIndex = 0;
         }

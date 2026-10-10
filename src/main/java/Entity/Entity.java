@@ -36,6 +36,7 @@ public abstract class Entity {
     public void update(){
 
     }
+
     public void draw(Graphics2D g2d){
         BufferedImage image = null;
 

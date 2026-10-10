@@ -27,7 +27,7 @@ public class KeyHandler implements KeyListener {
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
 
-        if(gp.gameState == gp.titleState){
+        if(gp.gameState == gp.titleState || gp.gameState == gp.dialogueState){
 
             if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP){
                 gp.ui.currentMenu--;

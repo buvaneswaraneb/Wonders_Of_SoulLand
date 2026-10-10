@@ -1,5 +1,7 @@
 package Main;
 
+import Biome.Biome;
+import Entity.Entity;
 import Entity.Traveller;
 import Objects.GreenStick_1;
 
@@ -10,29 +12,58 @@ public class AssestsSetter {
     }
 
     public void setObjects(){
-        gp.Obj[0] = new GreenStick_1();
-        gp.Obj[0].worldX = 26 * gp.tile_size;
-        gp.Obj[0].worldY = 20 * gp.tile_size;
+        setDukeForestObjects();
+    }
 
-        gp.Obj[1] = new GreenStick_1();
-        gp.Obj[1].worldX = 19 * gp.tile_size;
-        gp.Obj[1].worldY = 5 * gp.tile_size;
+    public void setNpcs(){
+        setDukeForestNPC();
+    }
 
-        gp.Obj[4] = new GreenStick_1();
-        gp.Obj[4].worldX = 7 * gp.tile_size;
-        gp.Obj[4].worldY = 10 * gp.tile_size;
+    /*
+    =============== SETTERS ===================
+     */
 
-        gp.Obj[6] = new GreenStick_1();
-        gp.Obj[6].worldX = 41 * gp.tile_size;
-        gp.Obj[6].worldY = 21 * gp.tile_size;
+    protected void setDukeForestNPC(){
+
+        /*
+        Duke Forest has limited of npc size, change the size manually at the BiomeManager class
+        current size is 10;
+         */
+
+        Biome dukeForest = gp.biomeManager.getBiome("B001");
+        Entity traveller = new Traveller(gp);
+        traveller.collisionOn = true;
+        traveller.World_x = 25 * gp.tile_size;
+        traveller.World_y = 20 * gp.tile_size;
+
+        dukeForest.npc[0] = traveller;
 
     }
 
 
-    public void setNpcs(){
-        gp.Npc[0] = new Traveller(gp);
-        gp.Npc[0].World_x = 25 * gp.tile_size;
-        gp.Npc[0].World_y = 20 * gp.tile_size;
+    protected void setDukeForestObjects(){
 
+        Biome dukeForest = gp.biomeManager.getBiome("B001");
+
+        var object1 = new GreenStick_1();
+        object1.worldX = 26 * gp.tile_size;
+        object1.worldY = 20 * gp.tile_size;
+        dukeForest.object[0] = object1;
+
+
+        var object2 = new GreenStick_1();
+        object2.worldX = 19 * gp.tile_size;
+        object2.worldY = 5 * gp.tile_size;
+        dukeForest.object[1] = object2;
+
+        var object3 = new GreenStick_1();
+        object3.worldX = 7 * gp.tile_size;
+        object3.worldY = 10 * gp.tile_size;
+        dukeForest.object[2] = object3;
+
+        var object4 = new GreenStick_1();
+        object4.worldX = 41 * gp.tile_size;
+        object4.worldY = 21 * gp.tile_size;
+        dukeForest.object[3] = object4;
     }
 }

@@ -13,10 +13,11 @@ public class CollisonEngine {
 
     private boolean isSolid(int row , int col){
         // map
-        int side1 =  gp.tileManager.map[row][col];
+        int side1 =  gp.currentBiome.map[row][col];
         boolean ismap = gp.tileManager.tiles[side1].collision;
         // map 2
-        int side2 = gp.tileManager.overlay_map[row][col];
+        if (!gp.currentBiome.isOverlayPresent) return  ismap;
+        int side2 = gp.currentBiome.overlay[row][col];
         boolean isOverlay = gp.tileManager.tiles[side2].collision;
 
         return ismap || isOverlay;

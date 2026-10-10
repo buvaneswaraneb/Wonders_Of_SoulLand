@@ -100,9 +100,10 @@ public class Player extends Entity{
         // check the collision between the tiles
         gp.collisonEngine.check_tile(this);
         // checking the collision between the objects
+
         int objIndex = gp.collisonEngine.checkObject(this,true);
         pickUpObj(objIndex);
-        int NpcIndex = gp.collisonEngine.checkEntity(this,gp.Npc);
+        int NpcIndex = gp.collisonEngine.checkEntity(this,gp.currentBiome.npc);
         interactNpc(NpcIndex);
 
     }
@@ -166,7 +167,7 @@ public class Player extends Entity{
         }
 
         gp.gameState = gp.dialogueState;
-        String dialogue = gp.Npc[index].dialogue();
+        String dialogue = gp.currentBiome.npc[index].dialogue();
         gp.ui.currentDialogue = dialogue;
         
     }

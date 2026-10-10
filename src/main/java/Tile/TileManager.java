@@ -16,12 +16,11 @@ public class TileManager{
     public Tile[] tiles ;
     public int[][] map;
     public int[][] overlay_map;
-    int map_size_row = 50;
-    int map_size_col = 50;
+
 
     public TileManager(GamePanel gp){
         this.gp = gp;
-        this.tiles = new Tile[10];
+        this.tiles = new Tile[500];
         this.map = new int[gp.max_world_row][gp.max_world_col];
         setTiles();
         setMap();
@@ -57,17 +56,26 @@ public class TileManager{
         get_tiles(5,mudPath);
         tiles[5].collision = false;
 
+        final String mirana_sand_1 = "/mirana-desert/mirana-biome-1-sand.png";
+        get_tiles(357,mirana_sand_1);
+        tiles[357].collision = false;
+
+        if(tiles[357].tile_image == null) System.out.println("image not found");
+
+        //temp
+        tiles[257] = tiles[5];
+        tiles[252] = tiles[0];
+
     }
 
     private void setMap(){
-
-        String trail_path = "trail.txt";
-        try {
-            map = load_map(trail_path);
-            overlay_map = load_map("trail_overlay.txt");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+//        String trail_path = "trail.txt";
+//        try {
+//            //map = load_map(trail_path);
+//            //overlay_map = load_map("trail_overlay.txt");
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
     }
 
 
@@ -86,7 +94,7 @@ public class TileManager{
         }
     }
 
-    private int[][] load_map(String FileName) throws IOException {
+    public int[][] load_map(String FileName) throws IOException {
         String path_map = "/Map/"+FileName;
         int[][] local_map = new int[gp.max_world_row][gp.max_world_col];
         InputStream stream = getClass().getResourceAsStream(path_map);
@@ -128,7 +136,11 @@ public class TileManager{
 
             while(world_col < gp.max_world_col && world_row < gp.max_world_row){
 
-                BufferedImage image = tiles[map[world_row][world_col]].tile_image;
+                int idx = gp.currentBiome.map[world_row][world_col];
+
+                BufferedImage image = tiles[idx].tile_image;
+
+                if(image == null) continue;
 
                 int worldX = world_col * gp.tile_size;
                 int worldY = world_row * gp.tile_size;
@@ -157,15 +169,14 @@ public class TileManager{
         }
     }
 
-
     private void overlay(Graphics2D g2d){
-        if (overlay_map == null) return;
+        if(!gp.currentBiome.isOverlayPresent) return;
         try{
             int world_col = 0;
             int world_row = 0;
 
             while(world_col < gp.max_world_col && world_row < gp.max_world_row) {
-                int idx = overlay_map[world_row][world_col];
+                int idx = gp.currentBiome.overlay[world_row][world_col];
                 if (idx != 0 && tiles[idx] != null && tiles[idx].tile_image != null) {
                     BufferedImage image = tiles[idx].tile_image;
 

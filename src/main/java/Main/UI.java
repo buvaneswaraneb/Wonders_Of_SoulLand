@@ -1,5 +1,7 @@
 package Main;
 
+import Biome.Biome;
+import Entity.Traveller;
 import Objects.GreenStick_1;
 import Objects.SuperObject;
 
@@ -22,7 +24,6 @@ public class UI {
 
     int x;
     int y;
-
 
     public UI(GamePanel gp){
         this.gp = gp;
@@ -83,6 +84,20 @@ public class UI {
         int y = gp.screen_height/2;
         g2d.drawString(text,x,y);
     }
+
+
+    public void drawDialogueBox(Graphics2D g2d){
+        int x = gp.tile_size /2;
+        int y = gp.screen_height - gp.tile_size * 3;
+        int height = gp.tile_size*3;
+        int width = gp.screen_width - gp.tile_size;
+
+        drawPanel(g2d,x,y,width,height);
+
+        g2d.setColor(Color.WHITE);
+        g2d.drawString(currentDialogue,x+(int)(gp.tile_size/2),y+(gp.tile_size/2));
+    }
+
 
 
     public void drawTitleScreen(Graphics2D g2d){
@@ -153,18 +168,17 @@ public class UI {
         g2d.drawImage(image,gp.screen_width - gp.tile_size * 5, gp.tile_size * 3 , gp.tile_size * 4,gp.tile_size*5,null);
 
         // draw bunny
-        var bunny = gp.Npc[0].left_walking.get(1);
-        var bunnyOverlay = gp.Npc[0].right_walking.get(1);
+        var bunnyTraveller = new Traveller(gp);
+        var bunny = bunnyTraveller.left_walking.get(1);
+        var bunnyOverlay = bunnyTraveller.right_walking.get(1);
         g2d.drawImage(bunny,9, gp.screen_height /2, gp.tile_size * 3, gp.tile_size * 4, null);
         g2d.drawImage(bunnyOverlay,20, (gp.screen_height/2)-9, gp.tile_size * 3, gp.tile_size * 4, null);
-
 
         if (gp.key_handler.enterPressed){
             if (currentMenu == 0){
                 gp.gameState = gp.playState;
             }
         }
-
 
     }
 
@@ -178,19 +192,6 @@ public class UI {
 
         g2d.drawString( "X: "+x+" Y: "+y ,gp.screen_width - gp.tile_size*3,40);
         g2d.drawString( "X: "+x/gp.tile_size+" Y: "+y/gp.tile_size ,gp.screen_width - gp.tile_size*3,60);
-    }
-
-
-    public void drawDialogueBox(Graphics2D g2d){
-        int x = gp.tile_size /2;
-        int y = gp.screen_height - gp.tile_size * 3;
-        int height = gp.tile_size*3;
-        int width = gp.screen_width - gp.tile_size;
-
-        drawPanel(g2d,x,y,width,height);
-        
-        g2d.setColor(Color.WHITE);
-        g2d.drawString(currentDialogue,x+(int)(gp.tile_size/2),y+(gp.tile_size/2));
     }
 
 

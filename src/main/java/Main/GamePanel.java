@@ -1,8 +1,9 @@
 package Main;
 
 import Entity.Entity;
-import Entity.Traveller;
 import Objects.SuperObject;
+import Biome.Biome;
+import Biome.BiomeManager;
 import Tile.TileManager;
 import Entity.Player;
 
@@ -35,8 +36,6 @@ public class GamePanel extends JPanel implements Runnable{
     public final int dialogueState = 3;
     public final int titleState = 4;
 
-    public boolean dialogueTrigger = false;
-
     //System
     Thread gameThread;
     public KeyHandler key_handler = new KeyHandler(this);
@@ -52,8 +51,11 @@ public class GamePanel extends JPanel implements Runnable{
 
     //Entities
     public Player player = new Player(this,key_handler);
-    public Traveller traveller = new Traveller(this);
+
+    // tiles
     TileManager tileManager = new TileManager(this);
+    public BiomeManager biomeManager = new BiomeManager(this);
+    public Biome currentBiome;
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(screen_width,screen_height));
@@ -68,12 +70,13 @@ public class GamePanel extends JPanel implements Runnable{
 
 
     public void setUpGame(){
+        biomeManager.BiomeSetter();
+        currentBiome = biomeManager.getBiome("B001");
         aSetter.setObjects();
         aSetter.setNpcs();
-//        playMusic(1);
+        playMusic(1);
         gameState = titleState;
     }
-
 
     public void startGameThread(){
         this.gameThread = new Thread(this);
@@ -134,7 +137,7 @@ public class GamePanel extends JPanel implements Runnable{
 
         // player and npc updates
         player.update();
-        for(Entity npc : Npc){
+        for(Entity npc : currentBiome.npc){
             if(npc == null) continue;
             npc.update();
         }
@@ -157,15 +160,15 @@ public class GamePanel extends JPanel implements Runnable{
             tileManager.draw(g2d);
 
             // display Objects
-            for(int i = 0; i < 10; i++){
-                if(Obj[i] == null) continue;
-                Obj[i].draw(this,g2d);
+            for(int i = 0; i < currentBiome.object.length; i++){
+                if(currentBiome.object[i] == null) continue;
+                currentBiome.object[i].draw(this,g2d);
             }
 
             // draw NPC
-            for(int i = 0; i < Npc.length; i++){
-                if(Npc[i] == null) continue;
-                Npc[i].draw(g2d);
+            for(int i = 0; i < currentBiome.npc.length; i++){
+                if(currentBiome.npc[i] == null) continue;
+                currentBiome.npc[i].draw(g2d);
             }
 
             player.draw(g2d);
