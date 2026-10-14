@@ -2,9 +2,8 @@ package Main;
 
 public class Clock {
 
-    private void _clock_thread(){
+    public void _clock_thread(int FPS){
         final double BILLION = 1_000_000_000;
-        final int FPS = 30;
         double drawInterval = BILLION / FPS;
         double nextInterval = System.nanoTime() + drawInterval;
 

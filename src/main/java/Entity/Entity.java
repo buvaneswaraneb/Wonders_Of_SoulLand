@@ -12,7 +12,7 @@ public abstract class Entity {
     public int speed;
     public String directions;
     int sprite_delay = 0;
-    int spite_number = 1;
+    int sprite_number = 1;
     public String name ;
     public boolean debug = false;
     GamePanel gp;
@@ -28,14 +28,14 @@ public abstract class Entity {
     public boolean collisionOn = false;
     public int solidDefaultAreaX , solidDefaultAreaY;
 
+    // abstract methods
+    public abstract String dialogue();
+    public abstract void update();
+
     public Entity(GamePanel gp) {
         this.gp = gp;
     }
 
-
-    public void update(){
-
-    }
 
     public void draw(Graphics2D g2d){
         BufferedImage image = null;
@@ -50,19 +50,19 @@ public abstract class Entity {
 
             switch (directions) {
                 case "up": {
-                    image = up_walking.get(spite_number);
+                    image = up_walking.get(sprite_number);
                     break;
                 }
                 case "down": {
-                    image = down_walking.get(spite_number);
+                    image = down_walking.get(sprite_number);
                     break;
                 }
                 case "left": {
-                    image = left_walking.get(spite_number);
+                    image = left_walking.get(sprite_number);
                     break;
                 }
                 case "right": {
-                    image = right_walking.get(spite_number);
+                    image = right_walking.get(sprite_number);
                     break;
                 }
             }
@@ -83,7 +83,5 @@ public abstract class Entity {
         return op.filter(inputImage, null);
     }
 
-
-    public abstract String dialogue();
 
 }

@@ -52,11 +52,11 @@ public class TileManager{
         get_tiles(4,blueMushroom);
         tiles[4].collision = false;
 
-        final String mudPath = "/path/path_mud_1.png";
+        final String mudPath = "path/path_mud_1.png";
         get_tiles(5,mudPath);
         tiles[5].collision = false;
 
-        final String mirana_sand_1 = "/mirana-desert/mirana-biome-1-sand.png";
+        final String mirana_sand_1 = "mirana-desert/mirana-biome-1-sand.png";
         get_tiles(357,mirana_sand_1);
         tiles[357].collision = false;
 
@@ -82,7 +82,7 @@ public class TileManager{
 
     private void get_tiles(int idx, String FileName){
 
-        String path = "/tiles/"+FileName;
+        String path = "/Tiles/"+FileName;
         if (tiles[idx] == null) tiles[idx] = new Tile();
 
         var stream = getClass().getResourceAsStream(path);

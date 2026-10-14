@@ -25,7 +25,7 @@ public class Biome {
     public Entity[] npc = new Entity[1];
 
     // objects
-    public SuperObject[] object = new SuperObject[1];
+    public SuperObject[] object;
 
 
 

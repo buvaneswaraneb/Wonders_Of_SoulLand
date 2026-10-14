@@ -58,10 +58,10 @@ public class Traveller extends Entity{
 //        }
         spriteDelay++;
         if(spriteDelay >= 30){
-            spite_number++;
+            sprite_number++;
             spriteDelay = 0;
-            if (spite_number >= totalSprites){
-                spite_number = 0;
+            if (sprite_number >= totalSprites){
+                sprite_number = 0;
             }
         }
 
@@ -70,8 +70,8 @@ public class Traveller extends Entity{
 
     @Override
     public void draw(Graphics2D g2d){
-        image = left_walking.get(spite_number);
-        image_cover = right_walking.get(spite_number);
+        image = left_walking.get(sprite_number);
+        image_cover = right_walking.get(sprite_number);
 
         int ScreenX = World_x - gp.player.World_x + gp.player.ScreenX;
         int ScreenY = World_y - gp.player.World_y + gp.player.ScreenY;

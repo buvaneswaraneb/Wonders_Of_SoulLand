@@ -18,6 +18,7 @@ public class Player extends Entity{
     public final int ScreenX;
     public final int ScreenY;
     public int woodScore = 0;
+    public int health;
 
     public Player(GamePanel gp , KeyHandler key_handler){
         this.gp = gp;
@@ -47,6 +48,7 @@ public class Player extends Entity{
         speed = 5;
         directions = "down";
         name = "Soul";
+        health = 100;
     }
 
     public void update(){
@@ -89,8 +91,8 @@ public class Player extends Entity{
 
             sprite_delay++;
             if(sprite_delay > 6){
-                spite_number++;
-                if (spite_number >= sprite_length) spite_number = 0;
+                sprite_number++;
+                if (sprite_number >= sprite_length) sprite_number = 0;
                 sprite_delay = 0;
             }
 
@@ -108,23 +110,24 @@ public class Player extends Entity{
 
     }
 
+    @Override
     public void draw(Graphics2D g2d){
         BufferedImage image = null;
         switch (directions) {
             case "up": {
-                image = up_walking.get(spite_number);
+                image = up_walking.get(sprite_number);
                 break;
             }
             case "down": {
-                image = down_walking.get(spite_number);
+                image = down_walking.get(sprite_number);
                 break;
             }
             case "left": {
-                image = left_walking.get(spite_number);
+                image = left_walking.get(sprite_number);
                 break;
             }
             case "right": {
-                image = right_walking.get(spite_number);
+                image = right_walking.get(sprite_number);
                 break;
             }
         }
@@ -169,6 +172,7 @@ public class Player extends Entity{
         gp.gameState = gp.dialogueState;
         String dialogue = gp.currentBiome.npc[index].dialogue();
         gp.ui.currentDialogue = dialogue;
+        gp.ui.healthWidth -= 1;
         
     }
 
@@ -177,18 +181,18 @@ public class Player extends Entity{
     private void pickUpObj(int obj_index){
         if (obj_index == Integer.MAX_VALUE) return;
 
-        String objName = gp.Obj[obj_index].name;
+        String objName = gp.currentBiome.object[obj_index].name;
 
         if(objName.equals("dried_branch#002") || objName.equals("greenStick#001")){
             gp.playSpecialEffects(2);
-            gp.Obj[obj_index] = null;
+            gp.currentBiome.object[obj_index] = null;
             woodScore++;
             gp.ui.showMessage("You acquired "+ objName.substring(0,objName.length()-4)+ " X1");
         }
 
         if (objName.equals("PowerShow#003")) {
             gp.playSpecialEffects(0);
-            gp.Obj[obj_index] = null;
+            gp.currentBiome.object[obj_index] = null;
             speed += 3;
         }
 
@@ -207,4 +211,5 @@ public class Player extends Entity{
     }
 
 }
+
 

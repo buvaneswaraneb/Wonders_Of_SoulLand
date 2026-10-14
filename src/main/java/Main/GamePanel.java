@@ -6,12 +6,13 @@ import Biome.Biome;
 import Biome.BiomeManager;
 import Tile.TileManager;
 import Entity.Player;
+import jdk.jshell.execution.Util;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class GamePanel extends JPanel implements Runnable{
-    final int FPS = 30;
+    final int FPS = 60;
 
     final int pixel = 16; // pixel size 16 x 16
     final int scale = 3; // scale
@@ -25,10 +26,6 @@ public class GamePanel extends JPanel implements Runnable{
 
     public final int max_world_row = 50; // World height by tiles
     public final int max_world_col = 50; // World width by tiles
-
-    public final int world_height = max_world_col * tile_size;
-    public final int world_width = max_world_row * tile_size;
-
     // game state
     public int gameState;
     public final int pauseState = 1;
@@ -37,9 +34,15 @@ public class GamePanel extends JPanel implements Runnable{
     public final int titleState = 4;
 
     //System
+    Clock clock = new Clock();
     Thread gameThread;
     public KeyHandler key_handler = new KeyHandler(this);
     public Utility util = new Utility();
+    // tiles
+    TileManager tileManager = new TileManager(this);
+    public BiomeManager biomeManager = new BiomeManager(this);
+    public Biome currentBiome;
+
     public CollisonEngine collisonEngine = new CollisonEngine(this);
     public AssestsSetter aSetter = new AssestsSetter(this);
     public Sound sound = new Sound();
@@ -47,15 +50,9 @@ public class GamePanel extends JPanel implements Runnable{
     public UI ui = new UI(this);
 
     public SuperObject[] Obj = new SuperObject[10]; // debug @ trail @limit
-    public Entity[] Npc = new Entity[10];
 
     //Entities
     public Player player = new Player(this,key_handler);
-
-    // tiles
-    TileManager tileManager = new TileManager(this);
-    public BiomeManager biomeManager = new BiomeManager(this);
-    public Biome currentBiome;
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(screen_width,screen_height));
@@ -65,7 +62,7 @@ public class GamePanel extends JPanel implements Runnable{
         this.setFocusable(true);
 
         //debug
-        debug();
+        //debug();
     }
 
 
@@ -86,35 +83,10 @@ public class GamePanel extends JPanel implements Runnable{
     @Override
     public void run() {
 
-        final double BILLION = 1_000_000_000;
-        double drawInterval = BILLION / FPS;
-        double delta = 0;
-        double lastTime = System.nanoTime();
-        double currentTime;
-        double timer = 0;
-        double drawCount = 0;
-
         while (gameThread != null){
-
-            currentTime = System.nanoTime();
-
-            delta += (currentTime - lastTime) / drawInterval;
-            timer += (currentTime-lastTime);
-            lastTime = currentTime;
-
-            if (delta >= 1) {
-                update();  // updates the information
-                repaint();  //redraws the pixel
-                delta--;
-                drawCount++;
-            }
-
-            if (timer >= BILLION){
-                System.out.println("FPS : "+drawCount);
-                drawCount = 0;
-                timer = 0;
-            }
-
+            update();
+            repaint();
+            clock._clock_thread(FPS);
         }
     }
 
@@ -197,9 +169,9 @@ public class GamePanel extends JPanel implements Runnable{
 
     private void debug(){
         player.debug = true;
-        for(int i = 0; i < 10; i++){
-            if(Obj[i] == null) continue;
-            Obj[i].debug = true;
+        for(int i = 0; i < currentBiome.object.length; i++){
+            if(currentBiome.object[i] == null) continue;
+            currentBiome.object[i].debug = true;
         }
     }
 

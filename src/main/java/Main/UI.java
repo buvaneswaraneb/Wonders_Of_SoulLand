@@ -1,6 +1,5 @@
 package Main;
 
-import Biome.Biome;
 import Entity.Traveller;
 import Objects.GreenStick_1;
 import Objects.SuperObject;
@@ -21,6 +20,10 @@ public class UI {
     public int currentMenu = 0;
     public final int menuTotal = 3;
     public String currentDialogue = " ";
+
+
+    private final int healthHeight = 16; // which is a 1/3 of the gp.tile_size of 48;
+    public int healthWidth = 144 ; // which is 3 * gp.tile_size
 
     int x;
     int y;
@@ -54,6 +57,7 @@ public class UI {
         // play state
         if(gp.gameState == gp.playState){
             drawCoordinates(g2d);
+            drawHealthBar(g2d);
         }
         //pause state
         else if(gp.gameState == gp.pauseState){
@@ -62,6 +66,7 @@ public class UI {
         //dialogue state
         else if (gp.gameState == gp.dialogueState){
             drawDialogueBox(g2d);
+            drawHealthBar(g2d);
         }
         else if(gp.gameState == gp.titleState){
             drawTitleScreen(g2d);
@@ -76,7 +81,7 @@ public class UI {
     }
 
 
-    public void drawPauseScreen(Graphics2D g2d){
+    private void drawPauseScreen(Graphics2D g2d){
         String text = "Paused";
         System.out.println("paused");
         g2d.setFont(g2d.getFont().deriveFont(80f));
@@ -86,7 +91,7 @@ public class UI {
     }
 
 
-    public void drawDialogueBox(Graphics2D g2d){
+    private void drawDialogueBox(Graphics2D g2d){
         int x = gp.tile_size /2;
         int y = gp.screen_height - gp.tile_size * 3;
         int height = gp.tile_size*3;
@@ -99,10 +104,30 @@ public class UI {
     }
 
 
+    private void drawHealthBar(Graphics2D g2d){
 
-    public void drawTitleScreen(Graphics2D g2d){
+        int x = 20;
+        int y = 20;
+
+        // draw health
+        g2d.setColor(new Color(200,0,0,220));
+        g2d.fillRect(x,y,healthWidth,healthHeight);
+
+        // draw over rectangle
+        g2d.setColor(new Color(0,0,0,200));
+        g2d.setStroke(new BasicStroke(4));
+        g2d.drawRect(x,y,144,healthHeight); // fixed size
+
+
+
+
+
+    }
+
+
+
+    private void drawTitleScreen(Graphics2D g2d){
         String gameTitle = "Wonders of SoulLand";
-
 
         // drawing background color for the screen
         Color b1 = new Color(96, 108, 56);
@@ -183,7 +208,7 @@ public class UI {
     }
 
 
-    public void drawCoordinates(Graphics2D g2d){
+    private void drawCoordinates(Graphics2D g2d){
         g2d.setFont(pixel_font);
         g2d.setColor(Color.white);
 

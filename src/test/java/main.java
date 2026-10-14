@@ -1,37 +1,23 @@
-import Biome.BiomeManager;
-import Main.GamePanel;
-
-import java.util.HashSet;
+import javax.swing.*;
+import java.util.*;
 
 
 public class main {
+    static void main(String[] args){
+        JFrame window = new JFrame();
+        window.setResizable(false);
+        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.setTitle("test Window");
 
-    public static void main(String[] args){
+        TestPannel testPannel = new TestPannel();
+        window.add(testPannel);
 
-        // test Biome Reader
-        GamePanel gp = new GamePanel();
-        BiomeManager bm = new BiomeManager(gp);
-        bm.BiomeSetter();
+        window.pack();
 
-        var test_biome = bm.getBiome("B001");
+        window.setLocationRelativeTo(null);
+        window.setVisible(true);
 
-        int[][] test = bm.loadMap_CSV(test_biome, "Map/mirana-desert/mirana-basemap.csv");
-        HashSet<Integer> set = new HashSet<>();
-
-        for (int[] a : test){
-            for(int b : a){
-                set.add(b);
-//                System.out.print(b + ", ");
-            }
-//            System.out.println();
-        }
-        System.out.println(set);
-
-
-
-
-
-
-
+        testPannel.setup();
+        testPannel.startGameThread();
     }
 }
