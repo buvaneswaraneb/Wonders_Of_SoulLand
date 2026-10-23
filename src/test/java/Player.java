@@ -4,6 +4,7 @@ import java.awt.*;
 
 public class Player {
     TestPannel tp;
+    GamePanel gp;
     int i = 0;
 
     public Player(TestPannel tp) {

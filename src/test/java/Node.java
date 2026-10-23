@@ -1,5 +1,5 @@
 
-import java.awt.*;
+import java.awt.Color;
 
 public class Node {
     int g;

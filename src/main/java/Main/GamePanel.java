@@ -1,12 +1,12 @@
 package Main;
 
 import Entity.Entity;
-import Objects.SuperObject;
 import Biome.Biome;
 import Biome.BiomeManager;
+import GridManager.GridManager;
+import GridManager.GridNode;
 import Tile.TileManager;
 import Entity.Player;
-import jdk.jshell.execution.Util;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,7 +16,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     final int pixel = 16; // pixel size 16 x 16
     final int scale = 3; // scale
-    public final int tile_size = pixel*scale; // 48 x 48
+    public final int tile_size = 50;
 
     public final int max_pixel_row = 12;   // height
     public final int max_pixel_col = 16;   // width
@@ -26,6 +26,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     public final int max_world_row = 50; // World height by tiles
     public final int max_world_col = 50; // World width by tiles
+
     // game state
     public int gameState;
     public final int pauseState = 1;
@@ -33,23 +34,30 @@ public class GamePanel extends JPanel implements Runnable{
     public final int dialogueState = 3;
     public final int titleState = 4;
 
+    //debug
+    public boolean debug = true;
+
     //System
     Clock clock = new Clock();
     Thread gameThread;
+
     public KeyHandler key_handler = new KeyHandler(this);
     public Utility util = new Utility();
-    // tiles
-    TileManager tileManager = new TileManager(this);
-    public BiomeManager biomeManager = new BiomeManager(this);
-    public Biome currentBiome;
 
+    // tiles
+    public TileManager tileManager = new TileManager(this);
+    public BiomeManager biomeManager = new BiomeManager(this);
+    public GridManager gridManager = new GridManager(this);
+    public PathFind pathfinder = new PathFind(this);
+
+    public Biome currentBiome;
     public CollisonEngine collisonEngine = new CollisonEngine(this);
     public AssestsSetter aSetter = new AssestsSetter(this);
+
     public Sound sound = new Sound();
     public Sound music = new Sound();
     public UI ui = new UI(this);
 
-    public SuperObject[] Obj = new SuperObject[10]; // debug @ trail @limit
 
     //Entities
     public Player player = new Player(this,key_handler);
@@ -60,19 +68,19 @@ public class GamePanel extends JPanel implements Runnable{
         this.setDoubleBuffered(true);
         this.addKeyListener(key_handler);
         this.setFocusable(true);
-
-        //debug
-        //debug();
     }
-
 
     public void setUpGame(){
         biomeManager.BiomeSetter();
-        currentBiome = biomeManager.getBiome("B001");
+        currentBiome = biomeManager.getBiome("B002");
+        gridManager.GridSetter();
         aSetter.setObjects();
         aSetter.setNpcs();
-        playMusic(1);
+//        playMusic(1);
         gameState = titleState;
+
+        //debug
+//        debug();
     }
 
     public void startGameThread(){
@@ -109,6 +117,7 @@ public class GamePanel extends JPanel implements Runnable{
 
         // player and npc updates
         player.update();
+        gridManager.update();
         for(Entity npc : currentBiome.npc){
             if(npc == null) continue;
             npc.update();
@@ -132,17 +141,17 @@ public class GamePanel extends JPanel implements Runnable{
             tileManager.draw(g2d);
 
             // display Objects
-            for(int i = 0; i < currentBiome.object.length; i++){
+            for(int i = 0; currentBiome.object != null && i < currentBiome.object.length; i++){
                 if(currentBiome.object[i] == null) continue;
                 currentBiome.object[i].draw(this,g2d);
             }
 
+            gridManager.draw(g2d);
             // draw NPC
             for(int i = 0; i < currentBiome.npc.length; i++){
                 if(currentBiome.npc[i] == null) continue;
                 currentBiome.npc[i].draw(g2d);
             }
-
             player.draw(g2d);
         }
         ui.draw(g2d);
@@ -168,11 +177,6 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     private void debug(){
-        player.debug = true;
-        for(int i = 0; i < currentBiome.object.length; i++){
-            if(currentBiome.object[i] == null) continue;
-            currentBiome.object[i].debug = true;
-        }
     }
 
 

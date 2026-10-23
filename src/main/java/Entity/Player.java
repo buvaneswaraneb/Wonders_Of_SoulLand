@@ -1,18 +1,19 @@
 package Entity;
 
 
-import Main.GamePanel;
-import Main.KeyHandler;
-
-
-import javax.imageio.ImageIO;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
+
+import Main.GamePanel;
+import Main.KeyHandler;
+
 public class Player extends Entity{
-    GamePanel gp;
     KeyHandler key_H;
     int sprite_length = 6;
     public final int ScreenX;
@@ -21,7 +22,6 @@ public class Player extends Entity{
     public int health;
 
     public Player(GamePanel gp , KeyHandler key_handler){
-        this.gp = gp;
         super(gp);
         this.key_H = key_handler;
         setDefaultPlayerValues();
@@ -46,43 +46,44 @@ public class Player extends Entity{
         World_x = 23 * gp.tile_size;
         World_y = 22 * gp.tile_size;
         speed = 5;
-        directions = "down";
+        direction = "down";
         name = "Soul";
         health = 100;
     }
 
+    @Override
     public void update(){
 
         if ( key_H.upPressed || key_H.downPressed || key_H.leftPressed || key_H.rightPressed){
 
         if (key_H.upPressed){
-            directions  = "up";
+            direction  = "up";
         }
         if (key_H.downPressed){
-            directions = "down";
+            direction = "down";
         }
         if (key_H.leftPressed){
-            directions = "left";
+            direction = "left";
         }
         if (key_H.rightPressed){
-            directions = "right";
+            direction = "right";
         }
 
             if(!collisionOn){
-                switch (directions){
-                    case "up":{
+                switch (direction){
+                    case "up" -> {
                         World_y -= speed;
-                        break;
                     }
-                    case "down":{
+                    case "down" -> {
+
                         World_y += speed;
                         break;
                     }
-                    case "left":{
+                    case "left" ->{
                         World_x -= speed;
                         break;
                     }
-                    case "right":{
+                    case "right" -> {
                         World_x += speed;
                         break;
                     }
@@ -113,20 +114,20 @@ public class Player extends Entity{
     @Override
     public void draw(Graphics2D g2d){
         BufferedImage image = null;
-        switch (directions) {
-            case "up": {
+        switch (direction) {
+            case "up" -> {
                 image = up_walking.get(sprite_number);
                 break;
             }
-            case "down": {
+            case "down" -> {
                 image = down_walking.get(sprite_number);
                 break;
             }
-            case "left": {
+            case "left" -> {
                 image = left_walking.get(sprite_number);
                 break;
             }
-            case "right": {
+            case "right" -> {
                 image = right_walking.get(sprite_number);
                 break;
             }
@@ -150,7 +151,7 @@ public class Player extends Entity{
             getSprites(6,"right/right_walking_",right_walking);
 
             for(BufferedImage image : right_walking){
-                left_walking.add(mirrorVertical(image));
+                left_walking.add(gp.util.mirrorVertical(image));
             }
         }
         catch (IOException e){

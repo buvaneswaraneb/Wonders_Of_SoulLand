@@ -4,6 +4,7 @@ import Biome.Biome;
 import Entity.Entity;
 import Entity.Traveller;
 import Entity.Slime;
+import GridManager.GridNode;
 import Objects.GreenStick_1;
 
 public class AssestsSetter {
@@ -18,13 +19,13 @@ public class AssestsSetter {
 
     public void setNpcs(){
         setDukeForestNPC();
+        setMiranaForestObjects();
     }
 
 
     /*
     =============== SETTERS ===================
      */
-
 
         /**
         *Duke Forest has limited of npc size, change the size manually at the BiomeManager class
@@ -43,6 +44,11 @@ public class AssestsSetter {
         Entity slime = new Slime(gp);
         slime.World_x = 25 * gp.tile_size;
         slime.World_y =  24 * gp.tile_size;
+
+        slime.solidArea.height = gp.tile_size;
+        slime.solidArea.width = gp.tile_size;
+
+        slime.grid = new GridNode(25,24);
 
         dukeForest.npc[1] = slime;
 
@@ -72,5 +78,23 @@ public class AssestsSetter {
         object4.worldX = 41 * gp.tile_size;
         object4.worldY = 21 * gp.tile_size;
         dukeForest.object[3] = object4;
+    }
+
+
+    protected void setMiranaForestObjects(){
+
+        Biome miranaForest = gp.biomeManager.getBiome("B002");
+
+        Entity slime = new Slime(gp);
+        slime.World_x = 25 * gp.tile_size;
+        slime.World_y =  24 * gp.tile_size;
+
+        slime.solidArea.height = gp.tile_size;
+        slime.solidArea.width = gp.tile_size;
+
+        slime.grid = new GridNode(25,24);
+
+        miranaForest.npc[1] = slime;
+
     }
 }

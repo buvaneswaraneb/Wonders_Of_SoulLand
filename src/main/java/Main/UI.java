@@ -53,7 +53,6 @@ public class UI {
         g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         g2d.setColor(Color.white);
 
-
         // play state
         if(gp.gameState == gp.playState){
             drawCoordinates(g2d);
@@ -117,9 +116,6 @@ public class UI {
         g2d.setColor(new Color(0,0,0,200));
         g2d.setStroke(new BasicStroke(4));
         g2d.drawRect(x,y,144,healthHeight); // fixed size
-
-
-
 
 
     }
@@ -216,7 +212,7 @@ public class UI {
         y = gp.player.World_y;
 
         g2d.drawString( "X: "+x+" Y: "+y ,gp.screen_width - gp.tile_size*3,40);
-        g2d.drawString( "X: "+x/gp.tile_size+" Y: "+y/gp.tile_size ,gp.screen_width - gp.tile_size*3,60);
+        g2d.drawString( "X: "+x/gp.currentBiome.BiomeWidth+" Y: "+y/gp.currentBiome.BiomeWidth ,gp.screen_width - gp.tile_size*3,60);
     }
 
 

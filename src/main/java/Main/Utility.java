@@ -1,7 +1,12 @@
 package Main;
 
+import Entity.Attacks.AttackTemplate;
+import GridManager.GridNode;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -98,4 +103,76 @@ public class Utility {
        int tileID = gp.currentBiome.map[c][r];
        return gp.tileManager.tiles[tileID].collision;
     }
+
+
+    public String findDirections(GridNode curr, int[] target){
+
+        int x = target[0] - curr.x;
+        int y = target[1] - curr.y;
+
+
+        if (x == 0 && y == 0) return "onDestination";
+
+        if (x == 0) return y < 0 ? "up" : "down";
+        if (y == 0) return x > 0 ? "right" : "left";
+
+        if (x > 0 && y < 0) return "northEast";
+        if (x < 0 && y < 0) return "northWest";
+        if (x > 0 ) return "southEast";
+
+        return  "southWest";
+    }
+
+
+    public String findDirections(
+            int curr_worldX, int curr_worldY,
+            int target_worldX, int target_worldY) {
+
+        int x = target_worldX - curr_worldX;
+        int y = target_worldY - curr_worldY;
+
+        if (x == 0 && y == 0) return "onDestination";
+
+        if (x == 0) return y < 0 ? "up" : "down";
+        if (y == 0) return x > 0 ? "right" : "left";
+
+        if (x > 0 && y < 0) return "northEast";
+        if (x < 0 && y < 0) return "northWest";
+        if (x > 0 ) return "southEast";
+
+        return  "southWest";
+    }
+
+    public BufferedImage mirrorVertical(BufferedImage inputImage) {
+        // Keep x-axis at 1 and scale y-axis by -1 (flip)
+        AffineTransform tx = AffineTransform.getScaleInstance(-1, 1);
+        // Shift the image back down into view
+        tx.translate(-inputImage.getWidth(),0);
+        // Apply transformation operation
+        AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+        return op.filter(inputImage, null);
+    }
+
+
+    /**
+     * To Check if the object distance inside the camera
+     * or screen window, it accepts objects and returns boolean
+     */
+    public boolean onScreen(AttackTemplate atk, GamePanel gp){
+
+        int x = atk.x ;
+        int y = atk.y ;
+
+        if (x + gp.tile_size > gp.player.World_x - gp.player.ScreenX &&
+                x - gp.tile_size < gp.player.World_x + gp.player.ScreenX &&
+                y + gp.tile_size > gp.player.World_y - gp.player.ScreenY &&
+                y - gp.tile_size < gp.player.World_y + gp.player.ScreenY) {
+
+            return true;
+
+        }
+        return false;
+    }
+
 }
+

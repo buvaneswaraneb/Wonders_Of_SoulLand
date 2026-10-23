@@ -1,106 +1,62 @@
 package Entity;
 
-import Main.GamePanel;
-
-import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import Entity.Attacks.AttackCollison;
+import Entity.Attacks.AttackTemplate;
+import Entity.Attacks.SlugShot;
+import Main.GamePanel;
+
+
 public class Slime extends Entity {
-    int counter = 0;
-    int globalCounter = 0;
-    int index = 0;
-    String[] path ;
-    boolean skip = true;
+
+    // view Field
+    int viewDistanceX = 5 * gp.tile_size;
+    int viewDistanceY = 5 * gp.tile_size;
+
+    // debug path
+    ArrayList<int[]> testRendering  = new ArrayList<>();
+    Entity[] targets = new Entity[]{gp.player};
+
+    //Attack -- @test
+    ArrayList<AttackTemplate> ATT = new ArrayList<>();
+    int attackIndex = 0;
 
 
+    // solid area
     public Slime(GamePanel gp) {
         super(gp);
         setDefaultValues();
         setSprites();
-
-        int[] playerCoords = new int[]{gp.player.World_y/gp.max_world_row, gp.player.World_x/gp.max_world_col};
-        int[] EntityCords = new int[]{World_y/gp.max_world_row,World_x/gp.max_world_col};
-        String pathString = gp.util.bfs(playerCoords,EntityCords,gp.currentBiome.map,gp);
-        this.path = pathString.split("//s");
-
-        for (String p : path){
-            System.out.println(p);
-        }
-
     }
 
-    @Override
-    public void update() {
-
-        counter++;
-
-        if (index >= path.length || skip){
-            int[] playerCoords = new int[]{gp.player.World_y/gp.max_world_row, gp.player.World_x/gp.max_world_col};
-            int[] EntityCords = new int[]{World_y/gp.max_world_row,World_x/gp.max_world_col};
-
-            String pathString = gp.util.bfs(EntityCords,playerCoords,gp.currentBiome.map,gp).trim();
-
-            if (pathString.equals("NO VALID PATH FOUND")) skip = true;
-            else skip = false;
-            path = pathString.split(" ");
-            index = 0;
-        }
-
-        if (counter >= 12  && !skip){
-            System.out.println(path.length);
-            directions = path[index] == null ? directions : path[index];
-            System.out.println(directions);
-            index++;
-        }
-        if(skip) index = 0;
-
-
-        if (!skip){
-            // directions
-            switch (directions){
-                case "up":{
-                    World_y -= speed;
-                    break;
-                }
-                case "down":{
-                    World_y += speed;
-                    break;
-                }
-                case "left":{
-                    World_x -= speed;
-                    break;
-                }
-                case "right":{
-                    World_x += speed;
-                    break;
-                }
-            }
-
-            }
-
-            sprite_delay++;
-            if (sprite_delay > 6){
-                sprite_number++;
-                if (sprite_number >= 4){
-                    sprite_number = 0;
-                }
-                sprite_delay= 0;
-            }
-
-    }
-
-    /*
-    ================== PATH FINDING ======================
-     */
 
 
     // ============== Setters =================
-    protected void setDefaultValues(){
-        speed = 4;
-        directions = "down";
+    private  void setDefaultValues(){
+        name = "slime";
+        speed = 1;
+        direction = "down";
+
+        FOV.height = viewDistanceY;
+        FOV.width = viewDistanceX;
+
+        FOV.x = - (gp.tile_size * 2);
+        FOV.y = - (gp.tile_size * 2 );
+
+        solidDefaultFOVAreaX = FOV.x;
+        solidDefaultFOVAreaY = FOV.y;
+
+        solidArea.x = 25;
+        solidArea.y = 30;
     }
 
-    protected void setSprites(){
+    private  void setSprites(){
         try {
             gp.util.getSprites(4, "/Monster/BlueSlime/down/blue_slime_down_", down_walking, 48, 48);
             gp.util.getSprites(4,"/Monster/BlueSlime/left/blue_slime_left_",left_walking,48,48);
@@ -111,12 +67,142 @@ public class Slime extends Entity {
         }
     }
 
+
+    @Override
+    public void update(){
+
+        collisionOn = false;
+        gp.collisonEngine.checkPlayer(this);
+
+        onRange = false;
+        int index = gp.collisonEngine.checkRange(this,targets);
+
+        direction = gp.util.findDirections(this.grid, new int[]{gp.player.grid.x,gp.player.grid.y});
+
+        System.out.println(direction);
+
+        if(onRange){
+            if (collisionOn) pathList.clear();
+
+            else if (gp.player.World_x != lastX || gp.player.World_y != lastY){
+                lastX = gp.player.World_x;
+                lastY = gp.player.World_y;
+                find(gp.player);
+            }
+        }else {
+            pathList.clear();
+        }
+
+
+        // initiate attack
+
+        if (gp.key_handler.enterPressed){
+
+            gp.key_handler.enterPressed = false;
+
+            AttackTemplate attack = new SlugShot(this,gp);
+            attack.attack();
+
+            ATT.add(attack);
+            System.out.println(ATT);
+
+        }
+
+        // attack
+
+        for (int i = 0; i < ATT.size() ; i++){
+            ATT.get(i).update();
+
+            if ( ATT.get(i).onContact || !gp.util.onScreen(ATT.get(i),gp)){
+                ATT.remove(i);
+            }
+        }
+
+        travelScheduler();
+    }
+
+
+    @Override
+    public void draw(Graphics2D g2d) {
+        BufferedImage image = null;
+
+        int ScreenX = ( World_x - gp.player.World_x ) + gp.player.ScreenX;
+        int ScreenY = ( World_y - gp.player.World_y ) + gp.player.ScreenY;
+
+        if (World_x + gp.tile_size > gp.player.World_x - gp.player.ScreenX &&
+                World_x - gp.tile_size < gp.player.World_x + gp.player.ScreenX &&
+                World_y + gp.tile_size > gp.player.World_y - gp.player.ScreenY &&
+                World_y - gp.tile_size < gp.player.World_y + gp.player.ScreenY) {
+
+            if (direction.equals("northWest") || direction.equals("northEast")) direction = "up";
+            else if (direction.equals("southWest") || direction.equals("southEast")) direction = "down";
+            else if (direction.equals("onDestination")) direction = "down";
+
+
+            switch (direction) {
+                case "up" -> {
+                    image = up_walking.get(sprite_number);
+                    break;
+                }
+                case "down" -> {
+                    image = down_walking.get(sprite_number);
+                    break;
+                }
+                case "left" -> {
+                    image = left_walking.get(sprite_number);
+                    break;
+                }
+                case "right" -> {
+                    image = right_walking.get(sprite_number);
+                    break;
+                }
+            }
+
+            g2d.drawImage(image, ScreenX + offset_x, ScreenY + offset_y, null);
+
+            if (gp.debug) {
+                g2d.setColor(Color.red);
+                g2d.drawRect(ScreenX + solidArea.x + offset_x, ScreenY + solidArea.y + offset_y, solidArea.width, solidArea.height);
+
+                g2d.setColor(Color.BLUE);
+                g2d.drawRect(ScreenX + FOV.x + offset_x, ScreenY + FOV.y + offset_y, FOV.width, FOV.height);
+            }
+
+        }
+
+        if(debug){
+        for (int[] i : pathList) {
+            g2d.setColor(Color.gray);
+            int uScreenX = (i[0] * gp.tile_size) - gp.player.World_x + gp.player.ScreenX;
+            int uScreenY = (i[1] * gp.tile_size) - gp.player.World_y + gp.player.ScreenY;
+
+            if ((i[0] * gp.tile_size) + gp.tile_size > gp.player.World_x - gp.player.ScreenX &&
+                    (i[0] * gp.tile_size) - gp.tile_size < gp.player.World_x + gp.player.ScreenX &&
+                    (i[1] * gp.tile_size) + gp.tile_size > gp.player.World_y - gp.player.ScreenY &&
+                    (i[1] * gp.tile_size) - gp.tile_size < gp.player.World_y + gp.player.ScreenY) {
+
+            g2d.fillOval(uScreenX,uScreenY,20,20);
+            }
+        }
+        }
+
+        // attack @testing
+        for(AttackTemplate attack : ATT){
+            if (attack == null) continue;
+            attack.drawAttack(g2d);
+        }
+    }
+
+
+
+
     // ============= Tools =====================
 
     @Override
     public String dialogue() {
         gp.gameState = gp.playState;
-        gp.player.World_x -= gp.tile_size;
+        gp.player.collisionOn = true;
         return "";
     }
+
 }

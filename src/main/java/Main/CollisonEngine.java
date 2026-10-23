@@ -12,14 +12,20 @@ public class CollisonEngine {
 
     private boolean isSolid(int row , int col){
         // map
-        int side1 =  gp.currentBiome.map[row][col];
-        boolean ismap = gp.tileManager.tiles[side1].collision;
+        int side1;
+        try{
+            side1 =  gp.currentBiome.map[row][col];
+        } catch (Exception e) {
+            System.out.printf("%d row , %d col \n",row,col);
+            throw new RuntimeException(e);
+        }
+        boolean sitemap = gp.tileManager.tiles[side1].collision;
         // map 2
-        if (!gp.currentBiome.isOverlayPresent) return  ismap;
+        if (!gp.currentBiome.isOverlayPresent) return  sitemap;
         int side2 = gp.currentBiome.overlay[row][col];
         boolean isOverlay = gp.tileManager.tiles[side2].collision;
 
-        return ismap || isOverlay;
+        return sitemap || isOverlay;
     }
 
     public void check_tile(Entity entity){
@@ -36,7 +42,7 @@ public class CollisonEngine {
         int entity_top_row = top_side_world_y / gp.tile_size;
         int entity_bottom_row = bottom_side_world_y / gp.tile_size;
 
-        switch (entity.directions){
+        switch (entity.direction){
             case "up":{
                 entity_top_row = (top_side_world_y - entity.speed) / gp.tile_size;
                 if(isSolid(entity_top_row,entity_right_col) || isSolid(entity_top_row,entity_left_col)){
@@ -73,7 +79,7 @@ public class CollisonEngine {
 
         int index = Integer.MAX_VALUE;
 
-        for(int i = 0; i < gp.currentBiome.object.length; i++){
+        for(int i = 0; gp.currentBiome.object != null && i < gp.currentBiome.object.length; i++){
             if (gp.currentBiome.object[i] == null) continue;
 
             // bring the entity solid area to the player
@@ -84,13 +90,13 @@ public class CollisonEngine {
             gp.currentBiome.object[i].solidArea.x =  gp.currentBiome.object[i].worldX +  gp.currentBiome.object[i].solidArea.x;
             gp.currentBiome.object[i].solidArea.y =  gp.currentBiome.object[i].worldY +  gp.currentBiome.object[i].solidArea.y;
 
-            switch (entity.directions){
+            switch (entity.direction){
                 case "up":{
                     entity.solidArea.y -= entity.speed;
                     if (entity.solidArea.intersects( gp.currentBiome.object[i].solidArea)){
                         if ( gp.currentBiome.object[i].collisionOn) entity.collisionOn = true;
                         if (player) index = i;
-                        System.out.println("collison on " + entity.directions);
+                        System.out.println("collison on " + entity.direction);
                     }
                     break;
                 }
@@ -99,7 +105,7 @@ public class CollisonEngine {
                     if (entity.solidArea.intersects( gp.currentBiome.object[i].solidArea)){
                         if ( gp.currentBiome.object[i].collisionOn) entity.collisionOn = true;
                         if (player) index = i;
-                        System.out.println("collison on " + entity.directions);
+                        System.out.println("collison on " + entity.direction);
                     }
                     break;
                 }
@@ -108,7 +114,7 @@ public class CollisonEngine {
                     if (entity.solidArea.intersects(gp.currentBiome.object[i].solidArea)){
                         if ( gp.currentBiome.object[i].collisionOn) entity.collisionOn = true;
                         if (player) index = i;
-                        System.out.println("collison on " + entity.directions);
+                        System.out.println("collison on " + entity.direction);
                     }
                     break;
                 }
@@ -117,7 +123,7 @@ public class CollisonEngine {
                     if (entity.solidArea.intersects( gp.currentBiome.object[i].solidArea)){
                         if ( gp.currentBiome.object[i].collisionOn) entity.collisionOn = true;
                         if (player) index = i;
-                        System.out.println("collison on " + entity.directions);
+                        System.out.println("collison on " + entity.direction);
                     }
                     break;
                 }
@@ -147,10 +153,10 @@ public class CollisonEngine {
             entity.solidArea.y = entity.World_y + entity.solidArea.y;
 
             // bring the objects solid area according the position of the object in the world map
-            targets[i].solidArea.x = targets[i].World_x + targets[i].solidArea.x;
-            targets[i].solidArea.y = targets[i].World_y + targets[i].solidArea.y;
+            targets[i].solidArea.x = targets[i].World_x + targets[i].solidArea.x + targets[i].offset_x;
+            targets[i].solidArea.y = targets[i].World_y + targets[i].solidArea.y + targets[i].offset_y;
 
-            switch (entity.directions){
+            switch (entity.direction){
                 case "up":{
                     entity.solidArea.y -= entity.speed;
                     if (entity.solidArea.intersects(targets[i].solidArea)){
@@ -206,7 +212,7 @@ public class CollisonEngine {
             gp.player.solidArea.y = gp.player.World_y + gp.player.solidArea.y;
 
 
-            switch (entity.directions){
+            switch (entity.direction){
                 case "up":{
                     entity.solidArea.y -= entity.speed;
                     if (entity.solidArea.intersects(gp.player.solidArea)){
@@ -242,5 +248,70 @@ public class CollisonEngine {
 
             gp.player.solidArea.x = gp.player.solidDefaultAreaX;
             gp.player.solidArea.y = gp.player.solidDefaultAreaY;
+        }
+
+
+
+        public int checkRange(Entity entity , Entity[] targets){
+
+            if(entity == null || targets == null) return -1;
+
+            int index = -1;
+
+            for(int i = 0; i < targets.length; i++){
+                if (targets[i] == null) continue;
+
+                // bring the entity solid area to the player
+                entity.FOV.x = entity.World_x + entity.FOV.x;
+                entity.FOV.y = entity.World_y + entity.FOV.y;
+
+                // bring the objects solid area according the position of the object in the world map
+                targets[i].solidArea.x = targets[i].World_x + targets[i].solidArea.x + targets[i].offset_x;
+                targets[i].solidArea.y = targets[i].World_y + targets[i].solidArea.y + targets[i].offset_y;
+
+                switch (targets[i].direction){
+
+                    case "up":{
+                        targets[i].solidArea.y -= targets[i].speed;
+                        if (entity.FOV.intersects(targets[i].solidArea)){
+                            entity.onRange = true;
+                            index = i;
+                        }
+                        break;
+                    }
+                    case "down":{
+                        targets[i].solidArea.y += targets[i].speed;
+                        if (entity.FOV.intersects(targets[i].solidArea)){
+                            entity.onRange = true;
+                            index = i;
+                        }
+                        break;
+                    }
+                    case "left":{
+                        targets[i].solidArea.x -= targets[i].speed;
+                        if (entity.FOV.intersects(targets[i].solidArea)){
+                            entity.onRange = true;
+                            index = i;
+                        }
+                        break;
+                    }
+                    case "right":{
+                        targets[i].solidArea.x += targets[i].speed;
+                        if (entity.FOV.intersects(targets[i].solidArea)){
+                            entity.onRange = true;
+                            index = i;
+                        }
+                        break;
+                    }
+                }
+
+                // reset the solid area of the both player and the entity
+                entity.FOV.x = entity.solidDefaultFOVAreaX;
+                entity.FOV.y = entity.solidDefaultFOVAreaY;
+
+                targets[i].solidArea.x = targets[i].solidDefaultAreaX;
+                targets[i].solidArea.y = targets[i].solidDefaultAreaY;
+            }
+            return  index;
         }
 }

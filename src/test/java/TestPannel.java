@@ -1,13 +1,12 @@
 
-import Entity.Traveller;
-import Main.Clock;
-import Main.Utility;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
+
+import javax.swing.JPanel;
 
 public class TestPannel extends JPanel implements Runnable{
 
@@ -31,7 +30,6 @@ public class TestPannel extends JPanel implements Runnable{
 
     TileManager tileManager = new TileManager(this);
     testPath pathfinder = new testPath();
-    Clock clock = new Clock();
 
     KeyHandler keyHandler = new KeyHandler();
     Player player = new Player(this);
@@ -106,6 +104,7 @@ public class TestPannel extends JPanel implements Runnable{
         }
     }
 
+    @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;

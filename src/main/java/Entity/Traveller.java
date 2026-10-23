@@ -14,31 +14,25 @@ public class Traveller extends Entity{
     BufferedImage image_cover;
     String[] dialogues = new String[10];
     int dialogueIndex = 0;
-    int counter = 0;
-
 
     public Traveller(GamePanel gp){
         super(gp);
         this.gp = gp;
         setDefault();
         setDialogues();
-        directions = "left";
+        direction = "left";
     }
-
-
 
     @Override
     public String dialogue() {
         if(gp.key_handler.enterPressed){
-            counter++;
-        }
-
-        if (counter > 5){
+            gp.key_handler.enterPressed = false;
             dialogueIndex++;
-            counter = 0;
+            System.out.println(gp.currentBiome.name);
         }
         if (dialogueIndex > 4){
-            gp.player.directions = "down";
+            System.out.println(gp.biomeManager.getBiome("B002").name);
+            gp.player.direction = "down";
             gp.currentBiome = gp.biomeManager.getBiome("B002");
             gp.gameState = gp.playState;
             dialogueIndex = 0;
@@ -52,7 +46,7 @@ public class Traveller extends Entity{
 
 //        collisionOn = false;
 //        gp.collisonEngine.checkPlayer(this);
-//
+
 //        if (collisionOn) {
 //            System.out.println("the entity detected the player"); // still the npc isn't in motion npc doesnt interact with player
 //        }
@@ -86,9 +80,6 @@ public class Traveller extends Entity{
         }
 
     }
-
-
-
 
 
     private void setDefault(){

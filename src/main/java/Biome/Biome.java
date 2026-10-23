@@ -1,6 +1,7 @@
 package Biome;
 
 import Entity.Entity;
+import GridManager.GridNode;
 import Objects.SuperObject;
 
 public class Biome {
@@ -23,6 +24,9 @@ public class Biome {
 
     // npc details
     public Entity[] npc = new Entity[1];
+
+    //Grid
+    public GridNode[][] grids = new GridNode[1][1];
 
     // objects
     public SuperObject[] object;

@@ -32,11 +32,9 @@ public class BiomeManager {
 
     }
 
-
     /*
     ==================== BIOME SETTERS ====================
      */
-
 
     protected void setDukeForest(){
         /*
@@ -71,7 +69,6 @@ public class BiomeManager {
 
         biomehashMap.put("B001",dukeForest);
     }
-
 
 
     protected void setMiranaDesert(){

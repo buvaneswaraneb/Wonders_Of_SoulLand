@@ -1,5 +1,6 @@
 package Tile;
 
+import Biome.Biome;
 import Main.GamePanel;
 
 import javax.imageio.ImageIO;
@@ -23,7 +24,6 @@ public class TileManager{
         this.tiles = new Tile[500];
         this.map = new int[gp.max_world_row][gp.max_world_col];
         setTiles();
-        setMap();
 
         //debug
 //        displayMatrix();
@@ -68,16 +68,12 @@ public class TileManager{
 
     }
 
-    private void setMap(){
-//        String trail_path = "trail.txt";
-//        try {
-//            //map = load_map(trail_path);
-//            //overlay_map = load_map("trail_overlay.txt");
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-    }
 
+    public Tile getTilesbyMap(int[][] map,int i , int j){
+        int index = map[i][j];
+        if (tiles[index] != null) return tiles[index];
+        return null;
+    }
 
 
     private void get_tiles(int idx, String FileName){
@@ -88,6 +84,7 @@ public class TileManager{
         var stream = getClass().getResourceAsStream(path);
         if (stream == null) System.out.println("Tile : " + path +" Not Found");
         try {
+            assert stream != null;
             tiles[idx].tile_image = gp.util.scale(ImageIO.read(stream), gp.tile_size, gp.tile_size);
         } catch (IOException e) {
             throw new RuntimeException(e);
