@@ -109,10 +109,8 @@ public class TestPannel extends JPanel implements Runnable{
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         tileManager.fill(g2d);
-        tileManager.totalDrawPath(g2d);
-        tileManager.drawpath(g2d);
-        tileManager.points(g2d);
         tileManager.drawCursor(g2d);
+        player.draw(g2d);
 
         g2d.dispose();
     }
@@ -120,6 +118,7 @@ public class TestPannel extends JPanel implements Runnable{
     private void update(){
         tileManager.update();
         player.update();
+
     }
 
 

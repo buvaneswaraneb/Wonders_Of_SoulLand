@@ -128,6 +128,8 @@ public abstract class Entity {
 
         }
 
+
+
         public void find(GridNode targetGrid){
             if (targetGrid == null){
                 if (gp.debug) System.out.println("DEBUG: The Target Grid is null of Not initialized");
@@ -183,15 +185,13 @@ public abstract class Entity {
             intervalCount = 0;
         }
 
-
-
         switch (direction){
             case "up" ->{
-                World_y += speed;
+                World_y -= speed;
             }
 
             case "down" ->{
-                World_y -= speed;
+                World_y += speed;
             }
 
             case "left" ->{
@@ -203,19 +203,19 @@ public abstract class Entity {
 
             case "northEast" -> {
                 World_x += speed;
-                World_y += speed;
+                World_y -= speed;
             }
             case "northWest" ->{
                 World_x -= speed;
-                World_y += speed;
+                World_y -= speed;
             }
             case "southEast" ->{
                 World_x += speed;
-                World_y -= speed;
+                World_y += speed;
             }
             case "southWest" ->{
                 World_x -= speed;
-                World_y -= speed;
+                World_y += speed;
             }
         }
 

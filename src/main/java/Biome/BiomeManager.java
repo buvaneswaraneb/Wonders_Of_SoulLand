@@ -1,13 +1,13 @@
 package Biome;
 
-import Entity.Entity;
-import Main.GamePanel;
-import Objects.SuperObject;
-
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
+
+import Entity.Entity;
+import Main.GamePanel;
+import Objects.SuperObject;
 
 public class BiomeManager {
     private HashMap<String,Biome> biomehashMap = new HashMap<>();
@@ -17,10 +17,42 @@ public class BiomeManager {
         this.gp = gp;
     }
 
+    /**
+     * <h1>! only for testing</h1>
+     */
+    public BiomeManager(){
 
+    }
+
+    /**
+     * Use only to get biome after initialization
+     * this does not run the grid initializer result in null pointer exception
+     * use useBiome(key) api to change biome at run time
+     * @param key
+     * @return
+     */
     public Biome getBiome(String key) {
         return biomehashMap.get(key);
     }
+
+    /**
+     * Gets Biome , and reinitialise the grid
+     * use at run time biome change <br>
+     * Note: this function is tightly coupled with GamePanel <br>
+     * <br>
+     * <strong>Its Directly Changes the GamePanel CurrentBiome</strong>
+     * @param key
+     * @return
+     */
+    public void useBiome(String key){
+        Biome b = getBiome(key);
+
+        // use the previous biome gridNode for the player
+        gp.currentBiome = b;
+        gp.gridManager.initializeGrid();
+
+    }
+
 
     public void  BiomeSetter(){
 
@@ -36,18 +68,20 @@ public class BiomeManager {
     ==================== BIOME SETTERS ====================
      */
 
+
+    /**
+     *         <h1>Duke Forest : The Tutorial Biome</h1> <br>
+     *
+     *         <h3>Lore : </h3><br>
+     *             the main Character arrives after the sudden Mana Storm, <br>
+     *             the mc wakes up in this forest, <br>
+     *             finds the Traveller and learns about the new world <br> <br>
+     *
+     *         <h3>Missions: </h3><br>
+     *             1: Helps the Traveller by helping him/her with branches <br>
+     */
     protected void setDukeForest(){
-        /*
-        Duke Forest : The Tutorial Biome,
 
-        Lore :
-            the main Character arrives after the sudden Mana Storm,
-            the mc wakes up in this forest,
-            finds the Traveller and learns about the new world
-
-        Missions:
-            1: Helps the Traveller by helping him/her with branches
-         */
         String biomePath;
         String biomeOverlayPath;
 
@@ -96,8 +130,8 @@ public class BiomeManager {
 
         biomehashMap.put("B002",mirana);
 
-    }
 
+}
 
 
 

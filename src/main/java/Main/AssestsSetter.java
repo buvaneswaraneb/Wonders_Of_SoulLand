@@ -34,24 +34,11 @@ public class AssestsSetter {
 
     protected void setDukeForestNPC(){
         Biome dukeForest = gp.biomeManager.getBiome("B001");
-        Entity traveller = new Traveller(gp);
-        traveller.collisionOn = true;
-        traveller.World_x = 25 * gp.tile_size;
-        traveller.World_y = 20 * gp.tile_size;
 
-        dukeForest.npc[0] = traveller;
+        setAssertEntity(dukeForest,new Traveller(gp),25,20);
 
-        Entity slime = new Slime(gp);
-        slime.World_x = 25 * gp.tile_size;
-        slime.World_y =  24 * gp.tile_size;
-
-        slime.solidArea.height = gp.tile_size;
-        slime.solidArea.width = gp.tile_size;
-
-        slime.grid = new GridNode(25,24);
-
-        dukeForest.npc[1] = slime;
-
+        setAssertEntity(dukeForest,new Slime(gp),25,24,24,24);
+        setAssertEntity(dukeForest,new Slime(gp),25,27);;
     }
 
 
@@ -85,16 +72,46 @@ public class AssestsSetter {
 
         Biome miranaForest = gp.biomeManager.getBiome("B002");
 
-        Entity slime = new Slime(gp);
-        slime.World_x = 25 * gp.tile_size;
-        slime.World_y =  24 * gp.tile_size;
+        setAssertEntity(miranaForest,new Slime(gp),25,24,gp.tile_size,gp.tile_size);
 
-        slime.solidArea.height = gp.tile_size;
-        slime.solidArea.width = gp.tile_size;
+    }
 
-        slime.grid = new GridNode(25,24);
+    private void setAssertEntity(Biome biome ,Entity entity, int x, int y){
 
-        miranaForest.npc[1] = slime;
+        if (biome.npcIndex >= biome.npc.length) throw new ArrayIndexOutOfBoundsException();
 
+        entity.World_x = x * gp.tile_size;
+        entity.World_y = y * gp.tile_size;
+
+        // grid
+        entity.grid = new GridNode(x,y);
+
+        // sold area
+        entity.solidArea.height = gp.tile_size;
+        entity.solidArea.width = gp.tile_size;
+
+        biome.npc[biome.npcIndex] = entity;
+
+        biome.npcIndex++;
+    }
+
+
+    private void setAssertEntity(Biome biome ,Entity entity, int x, int y, int height , int width){
+
+        if (biome.npcIndex >= biome.npc.length) throw new ArrayIndexOutOfBoundsException();
+
+        entity.World_x = x * gp.tile_size;
+        entity.World_y = y * gp.tile_size;
+
+        // grid
+        entity.grid = new GridNode(x,y);
+
+        // sold area
+        entity.solidArea.height = height;
+        entity.solidArea.width = width;
+
+        biome.npc[biome.npcIndex] = entity;
+
+        biome.npcIndex++;
     }
 }

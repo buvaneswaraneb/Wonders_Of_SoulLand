@@ -42,9 +42,6 @@ public class TileManager {
     }
 
 
-
-
-
     public void update(){
         timecounter++;
 

@@ -45,7 +45,6 @@ public class SlugShot extends AttackTemplate{
         if (!attackOn) return;
         if (attackCounter < attackCoolDown) return;
 
-
         switch (direction){
             case "up" ->{
                 y -= speed;

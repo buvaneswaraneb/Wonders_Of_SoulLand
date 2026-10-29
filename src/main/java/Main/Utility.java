@@ -101,7 +101,7 @@ public class Utility {
 
     public boolean isCollisonTile(int r , int c,GamePanel gp){
        int tileID = gp.currentBiome.map[c][r];
-       return gp.tileManager.tiles[tileID].collision;
+       return gp.tileManager.tiles.get(tileID).collision;
     }
 
 

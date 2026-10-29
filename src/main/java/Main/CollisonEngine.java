@@ -19,11 +19,11 @@ public class CollisonEngine {
             System.out.printf("%d row , %d col \n",row,col);
             throw new RuntimeException(e);
         }
-        boolean sitemap = gp.tileManager.tiles[side1].collision;
+        boolean sitemap = gp.tileManager.tiles.get(side1).collision;
         // map 2
         if (!gp.currentBiome.isOverlayPresent) return  sitemap;
         int side2 = gp.currentBiome.overlay[row][col];
-        boolean isOverlay = gp.tileManager.tiles[side2].collision;
+        boolean isOverlay = gp.tileManager.tiles.get(side2).collision;
 
         return sitemap || isOverlay;
     }

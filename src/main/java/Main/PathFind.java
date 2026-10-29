@@ -33,6 +33,10 @@ public class PathFind {
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
                 GridNode curr = gp.currentBiome.grids[i][j];
+                if (curr == null){
+                    System.out.println(i + " " + j);
+                    continue;
+                }
                 curr.g = Integer.MAX_VALUE;
                 if (destNode != null) {
                     int dx = Math.abs(curr.x - destNode.x);

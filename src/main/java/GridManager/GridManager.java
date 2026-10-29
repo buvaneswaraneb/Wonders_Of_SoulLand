@@ -14,15 +14,12 @@ public class GridManager {
         this.gp = gp;
     }
 
-
-    public void GridSetter(){
+    public void initializeGrid(){
         Biome b = gp.currentBiome;
         // initialize the nodes
         b.grids = new GridNode[b.BiomeHeight][b.BiomeWidth];
         for(int y = 0 ; y < b.BiomeHeight ; y++){
             for(int x = 0; x < b.BiomeWidth ; x++){
-
-
                 // x and y done
                 b.grids[y][x] = new GridNode(x,y);
 
@@ -39,7 +36,6 @@ public class GridManager {
                 else if (b.isOverlayPresent &&  b.grids[y][x].overlayTile.collision){
                     b.grids[y][x].walkable = false;
                 }
-
             }
         }
     }
@@ -91,8 +87,8 @@ public class GridManager {
 
             if (e == null) continue;
 
-            int EntityX = e.World_x/gp.currentBiome.BiomeWidth;
-            int EntityY = e.World_y/gp.currentBiome.BiomeWidth;
+            int EntityX = ( e.World_x + 25 ) /gp.currentBiome.BiomeWidth;
+            int EntityY = ( e.World_y + 25 ) /gp.currentBiome.BiomeWidth;
 
             if (e.grid == null) {
                e.grid = new GridNode(EntityX, EntityY);

@@ -19,5 +19,12 @@ public class main {
 
         testPannel.setup();
         testPannel.startGameThread();
+
+
+        // test
+
+        testFunction tf  = new testFunction();
+
+        tf.test();
     }
 }

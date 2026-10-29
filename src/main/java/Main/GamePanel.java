@@ -1,21 +1,22 @@
 package Main;
 
-import Entity.Entity;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+
+import javax.swing.JPanel;
+
 import Biome.Biome;
 import Biome.BiomeManager;
-import GridManager.GridManager;
-import GridManager.GridNode;
-import Tile.TileManager;
+import Entity.Entity;
 import Entity.Player;
-
-import javax.swing.*;
-import java.awt.*;
+import GridManager.GridManager;
+import Tile.TileManager;
 
 public class GamePanel extends JPanel implements Runnable{
     final int FPS = 60;
-
-    final int pixel = 16; // pixel size 16 x 16
-    final int scale = 3; // scale
+    
     public final int tile_size = 50;
 
     public final int max_pixel_row = 12;   // height
@@ -72,8 +73,8 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void setUpGame(){
         biomeManager.BiomeSetter();
-        currentBiome = biomeManager.getBiome("B002");
-        gridManager.GridSetter();
+        currentBiome = biomeManager.getBiome("B001");
+        gridManager.initializeGrid();
         aSetter.setObjects();
         aSetter.setNpcs();
 //        playMusic(1);
@@ -136,7 +137,6 @@ public class GamePanel extends JPanel implements Runnable{
         if (gameState == 0 || gameState == titleState) {
             //current state title state
         }
-
         else {
             tileManager.draw(g2d);
 
@@ -152,12 +152,13 @@ public class GamePanel extends JPanel implements Runnable{
                 if(currentBiome.npc[i] == null) continue;
                 currentBiome.npc[i].draw(g2d);
             }
+
             player.draw(g2d);
         }
         ui.draw(g2d);
+        
         g2d.dispose();
     }
-
 
 
     //music
@@ -175,9 +176,5 @@ public class GamePanel extends JPanel implements Runnable{
         sound.setFile(i);
         sound.play();
     }
-
-    private void debug(){
-    }
-
 
 }

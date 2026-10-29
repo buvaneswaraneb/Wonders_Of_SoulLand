@@ -18,6 +18,8 @@ public class Biome {
     public Boolean isOverlayPresent;
     public int BiomeHeight;
     public int BiomeWidth;
+    public int npcIndex = 0;
+    public int objectIndex = 0;
 
     public int[][] map = new int[1][1];
     public int[][] overlay = new int[1][1];

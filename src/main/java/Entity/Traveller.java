@@ -33,7 +33,7 @@ public class Traveller extends Entity{
         if (dialogueIndex > 4){
             System.out.println(gp.biomeManager.getBiome("B002").name);
             gp.player.direction = "down";
-            gp.currentBiome = gp.biomeManager.getBiome("B002");
+            gp.biomeManager.useBiome("B002");
             gp.gameState = gp.playState;
             dialogueIndex = 0;
         }

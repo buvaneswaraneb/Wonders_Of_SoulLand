@@ -58,10 +58,10 @@ public class Slime extends Entity {
 
     private  void setSprites(){
         try {
-            gp.util.getSprites(4, "/Monster/BlueSlime/down/blue_slime_down_", down_walking, 48, 48);
-            gp.util.getSprites(4,"/Monster/BlueSlime/left/blue_slime_left_",left_walking,48,48);
-            gp.util.getSprites(4,"/Monster/BlueSlime/right/blue_slime_right_",right_walking,48,48);
-            gp.util.getSprites(4,"/Monster/BlueSlime/up/blue_slime_up_",up_walking,48,48);
+            gp.util.getSprites(4, "/Monster/BlueSlime/down/blue_slime_down_", down_walking, gp.tile_size, gp.tile_size);
+            gp.util.getSprites(4,"/Monster/BlueSlime/left/blue_slime_left_",left_walking,gp.tile_size,gp.tile_size);
+            gp.util.getSprites(4,"/Monster/BlueSlime/right/blue_slime_right_",right_walking,gp.tile_size,gp.tile_size);
+            gp.util.getSprites(4,"/Monster/BlueSlime/up/blue_slime_up_",up_walking,gp.tile_size,gp.tile_size);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -71,54 +71,34 @@ public class Slime extends Entity {
     @Override
     public void update(){
 
-        collisionOn = false;
-        gp.collisonEngine.checkPlayer(this);
+        checkCollision();  // collision Detection
 
-        onRange = false;
-        int index = gp.collisonEngine.checkRange(this,targets);
+        checkOnRange(); // checks if the player is on direction
 
-        direction = gp.util.findDirections(this.grid, new int[]{gp.player.grid.x,gp.player.grid.y});
+        travelScheduler(); // if the path was found
 
-        System.out.println(direction);
 
-        if(onRange){
-            if (collisionOn) pathList.clear();
-
-            else if (gp.player.World_x != lastX || gp.player.World_y != lastY){
-                lastX = gp.player.World_x;
-                lastY = gp.player.World_y;
-                find(gp.player);
-            }
-        }else {
-            pathList.clear();
-        }
+//        direction = gp.util.findDirections(this.grid, new int[]{gp.player.grid.x,gp.player.grid.y});
 
 
         // initiate attack
 
         if (gp.key_handler.enterPressed){
-
             gp.key_handler.enterPressed = false;
-
             AttackTemplate attack = new SlugShot(this,gp);
             attack.attack();
-
             ATT.add(attack);
-            System.out.println(ATT);
-
+            gp.biomeManager.useBiome("B002");
         }
 
         // attack
 
         for (int i = 0; i < ATT.size() ; i++){
             ATT.get(i).update();
-
             if ( ATT.get(i).onContact || !gp.util.onScreen(ATT.get(i),gp)){
                 ATT.remove(i);
             }
         }
-
-        travelScheduler();
     }
 
 
@@ -203,6 +183,31 @@ public class Slime extends Entity {
         gp.gameState = gp.playState;
         gp.player.collisionOn = true;
         return "";
+    }
+
+
+    private void checkCollision(){
+        collisionOn = false;
+        gp.collisonEngine.checkPlayer(this);
+    }
+
+    private void checkOnRange(){
+        onRange = false;
+        gp.collisonEngine.checkRange(this,targets);
+
+
+        if(onRange){
+            if (collisionOn) pathList.clear();
+
+            else if (gp.player.World_x != lastX || gp.player.World_y != lastY){
+                lastX = gp.player.World_x;
+                lastY = gp.player.World_y;
+                find(gp.player);
+            }
+        }else {
+            pathList.clear();
+        }
+
     }
 
 }

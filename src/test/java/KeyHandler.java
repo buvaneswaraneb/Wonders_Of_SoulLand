@@ -1,5 +1,3 @@
-import Entity.Entity;
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -48,9 +46,9 @@ public class KeyHandler implements KeyListener {
         else if (code == KeyEvent.VK_S){ downPressed = false; downCounter = 0; }
         else if (code == KeyEvent.VK_A){ leftPressed = false; leftCounter = 0; }
         else if (code == KeyEvent.VK_D){ rightPressed = false; rightCounter = 0; }
-        else if (code == KeyEvent.VK_O){ srcPressed = false;srcCounter = 0; }
+        else if (code == KeyEvent.VK_O){ srcPressed = false; srcCounter = 0; }
         else if (code == KeyEvent.VK_P){ destPressed = false; destCounter = 0; }
-        else if (code == KeyEvent.VK_ENTER){ enterPressed = false; destCounter = 0; }
+        else if (code == KeyEvent.VK_ENTER){ destCounter = 0; }
 
 
     }
