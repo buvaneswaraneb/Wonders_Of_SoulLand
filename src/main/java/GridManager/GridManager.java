@@ -36,6 +36,8 @@ public class GridManager {
                 else if (b.isOverlayPresent &&  b.grids[y][x].overlayTile.collision){
                     b.grids[y][x].walkable = false;
                 }
+
+
             }
         }
     }

@@ -23,7 +23,9 @@ public class CollisonEngine {
         // map 2
         if (!gp.currentBiome.isOverlayPresent) return  sitemap;
         int side2 = gp.currentBiome.overlay[row][col];
-        boolean isOverlay = gp.tileManager.tiles.get(side2).collision;
+        boolean isOverlay;
+        if (side2 == -1) isOverlay = false;
+        else isOverlay = gp.tileManager.tiles.get(side2).collision;
 
         return sitemap || isOverlay;
     }

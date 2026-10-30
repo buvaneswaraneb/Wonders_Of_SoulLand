@@ -62,6 +62,10 @@ public class BiomeManager {
         // mirana Desert
         setMiranaDesert();
 
+        // tesseract
+        setTesseract();
+
+
     }
 
     /*
@@ -102,6 +106,24 @@ public class BiomeManager {
         dukeForest.object = new SuperObject[10]; // increase the number of objects
 
         biomehashMap.put("B001",dukeForest);
+    }
+
+
+    protected void setTesseract(){
+        Biome tesseract = new Biome();
+        tesseract.BiomeWidth = 100;
+        tesseract.BiomeHeight = 100;
+        tesseract.name = "Tesseract";
+        tesseract.isOverlayPresent = true;
+
+        tesseract.map = loadMap_CSV(tesseract, "/Map/tesseract/prototype/tesseract_baseLayer.csv");
+        System.out.println(tesseract.map.length);
+        tesseract.overlay = loadMap_CSV(tesseract,"/Map/tesseract/prototype/tesseract_Overlay.csv");
+        System.out.println(tesseract.overlay.length);
+
+        biomehashMap.put("B003",tesseract);
+
+
     }
 
 

@@ -19,8 +19,8 @@ public class GamePanel extends JPanel implements Runnable{
     
     public final int tile_size = 50;
 
-    public final int max_pixel_row = 12;   // height
-    public final int max_pixel_col = 16;   // width
+    public final int max_pixel_row = 16;   // height
+    public final int max_pixel_col = 24;   // width
 
     public final int screen_width = max_pixel_col * tile_size; // 768
     public final int screen_height = max_pixel_row * tile_size; // 576
@@ -73,7 +73,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void setUpGame(){
         biomeManager.BiomeSetter();
-        currentBiome = biomeManager.getBiome("B001");
+        currentBiome = biomeManager.getBiome("B003");
         gridManager.initializeGrid();
         aSetter.setObjects();
         aSetter.setNpcs();

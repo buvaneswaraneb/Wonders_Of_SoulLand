@@ -13,7 +13,7 @@ public class testFunction {
         Biome tb = new Biome();
         tb.BiomeHeight = 100;
         tb.BiomeWidth = 100;
-        int[][] csv = bm.loadMap_CSV(tb,"/Map/tesseract/prototype/tesseract_Overlay.csv");
+        int[][] csv = bm.loadMap_CSV(tb,"Map/tesseract/prototype/tesseract_baseLayer.csv");
 
         for(int[] c: csv){
             for(int i : c){
@@ -29,5 +29,8 @@ public class testFunction {
         System.out.println("==================================================================");
 
         System.out.println(set);
+
+        System.out.println(set.size());
+
     }
 }
