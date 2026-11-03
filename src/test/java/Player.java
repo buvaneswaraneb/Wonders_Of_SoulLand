@@ -104,16 +104,16 @@ public class Player {
 
     public void update(){
 
-        if(tp.keyHandler.upPressed){
+        if(tp.keyHandlerTest.upPressed){
             y -= speed;
         }
-        if(tp.keyHandler.downPressed){
+        if(tp.keyHandlerTest.downPressed){
             y += speed;
         }
-        if(tp.keyHandler.leftPressed){
+        if(tp.keyHandlerTest.leftPressed){
             x -= speed;
         }
-        if(tp.keyHandler.rightPressed){
+        if(tp.keyHandlerTest.rightPressed){
             x += speed;
         }
 

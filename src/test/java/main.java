@@ -8,23 +8,25 @@ public class main {
         window.setResizable(false);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setTitle("test Window");
+//
+//        TestPannel testPannel = new TestPannel();
+//        window.add(testPannel);
 
-        TestPannel testPannel = new TestPannel();
-        window.add(testPannel);
+        NoiseScreen ns = new NoiseScreen();
+        window.add(ns);
 
         window.pack();
 
         window.setLocationRelativeTo(null);
         window.setVisible(true);
 
-        testPannel.setup();
-        testPannel.startGameThread();
+        ns.startNoiseThread();
+//        testPannel.setup();
+//        testPannel.startGameThread();
 
-
-        // test
-
-        testFunction tf  = new testFunction();
-
-        tf.test();
+//
+//        testFunction tf  = new testFunction();
+//
+//        tf.test();
     }
 }

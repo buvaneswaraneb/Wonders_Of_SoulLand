@@ -17,6 +17,10 @@ public class TileManager{
 
     public HashMap<Integer,Tile> tiles = new HashMap<>();
 
+    public int[] grassTiles = {301,302,303,325,};
+    public int[] flowerTiles = {581,606,631,656,603};
+    public int[] mushroomTiles = {578,4};
+
 
     public TileManager(GamePanel gp){
         this.gp = gp;
@@ -237,6 +241,60 @@ public class TileManager{
         final String Water_tiles_52 = "tesseract_tiles/52_Water_tiles.png"; // green
         get_tiles(52,Water_tiles_52);
         tiles.get(52).collision = false;
+
+
+        final String Vegetation301 = "tesseract_tiles/301_Vegetation.png";
+        get_tiles(301,Vegetation301);
+        tiles.get(301).collision = false;
+
+
+        final String Vegetation302 = "tesseract_tiles/302_Vegetation.png";
+        get_tiles(302,Vegetation302);
+        tiles.get(302).collision = false;
+
+
+        final String Vegetation303 = "tesseract_tiles/303_Vegetation.png";
+        get_tiles(303,Vegetation303);
+        tiles.get(303).collision = false;
+
+
+        final String Vegetation325 = "tesseract_tiles/325_Vegetation.png";
+        get_tiles(325,Vegetation325);
+        tiles.get(325).collision = false;
+
+
+        final String Vegetation578 = "tesseract_tiles/578_Vegetation.png";
+        get_tiles(578,Vegetation578);
+        tiles.get(578).collision = false;
+
+
+        final String Vegetation527 = "tesseract_tiles/527_Vegetation.png";
+        get_tiles(527,Vegetation527);
+        tiles.get(527).collision = false;
+
+
+        final String Vegetation581 = "tesseract_tiles/581_Vegetation.png";
+        get_tiles(581,Vegetation581);
+        tiles.get(581).collision = false;
+
+
+        final String Vegetation606 = "tesseract_tiles/606_Vegetation.png";
+        get_tiles(606,Vegetation606);
+        tiles.get(606).collision = false;
+
+
+        final String Vegetation631 = "tesseract_tiles/631_Vegetation.png";
+        get_tiles(631,Vegetation631);
+        tiles.get(631).collision = false;
+
+
+        final String Vegetation656 = "tesseract_tiles/656_Vegetation.png";
+        get_tiles(656,Vegetation656);
+        tiles.get(656).collision = false;
+
+        final String Vegetation603 = "tesseract_tiles/603_Vegetation.png";
+        get_tiles(603,Vegetation603);
+        tiles.get(603).collision = false;
 
 
         tiles.put(-1,new Tile());

@@ -3,9 +3,13 @@
 
 
 # Currently On Progress
-New Map Tesseract Gate 1
 
+Value Noise Implementation for procedural generation of objects such as grass, and flowers
+![](Images/voice_noise.png)
+
+New Map Tesseract Gate 1
 ![](Images/new_map_beta.png)
+
 
 # Demo 
 ![](Images/demo_game_title_screen.png)

@@ -31,7 +31,7 @@ public class TestPannel extends JPanel implements Runnable{
     TileManager tileManager = new TileManager(this);
     testPath pathfinder = new testPath();
 
-    KeyHandler keyHandler = new KeyHandler();
+    KeyHandler_test keyHandlerTest = new KeyHandler_test();
     Player player = new Player(this);
 
     Node[][] tiles = new Node[max_pixel_row][max_pixel_col];
@@ -48,7 +48,7 @@ public class TestPannel extends JPanel implements Runnable{
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true);
         this.setFocusable(true);
-        this.addKeyListener(keyHandler);
+        this.addKeyListener(keyHandlerTest);
         this.setFocusable(true);
     }
 

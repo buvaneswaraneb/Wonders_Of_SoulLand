@@ -133,7 +133,7 @@ public class Player extends Entity{
             }
         }
         g2d.drawImage(image,ScreenX, ScreenY,null);
-        if (debug) {
+        if (gp.debug) {
             g2d.setColor(Color.red);
             g2d.drawRect(ScreenX + solidArea.x, ScreenY + solidArea.y, solidArea.width, solidArea.height);
         }

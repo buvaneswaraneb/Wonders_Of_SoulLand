@@ -4,9 +4,11 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
+import java.util.Random;
 
 import Entity.Entity;
 import Main.GamePanel;
+import Main.Noise;
 import Objects.SuperObject;
 
 public class BiomeManager {
@@ -120,6 +122,33 @@ public class BiomeManager {
         System.out.println(tesseract.map.length);
         tesseract.overlay = loadMap_CSV(tesseract,"/Map/tesseract/prototype/tesseract_Overlay.csv");
         System.out.println(tesseract.overlay.length);
+
+        Noise noise = new Noise(tesseract.BiomeWidth,tesseract.BiomeHeight,78648753);
+        Random random = new Random();
+        int grassTileSize = gp.tileManager.grassTiles.length;
+        int flowersTileSize = gp.tileManager.flowerTiles.length;
+        int musroomTileSize = gp.tileManager.mushroomTiles.length;
+        float factor = 0.1f;
+        for(int i = 0; i < tesseract.BiomeHeight; i++){
+            for(int j = 0; j< tesseract.BiomeWidth ;j++){
+                float val = noise.getNoise(i,j,factor);
+                if (tesseract.overlay[i][j] != -1 ||  tesseract.map[i][j] != 52) continue;
+
+                if (val >= 0.9 ) continue;
+                else if (val >= 0.8  ) tesseract.overlay[i][j] = gp.tileManager.flowerTiles[random.nextInt(flowersTileSize)];
+                else if (val >= 0.7  ) continue;
+                else if (val >= 0.6  ) tesseract.overlay[i][j] = gp.tileManager.flowerTiles[random.nextInt(flowersTileSize)];
+                else if (val >= 0.4  ) continue;
+                else if (val >= 0.3  ) tesseract.overlay[i][j] = gp.tileManager.flowerTiles[random.nextInt(flowersTileSize)];
+                else if (val >= 0.2  ) tesseract.overlay[i][j] = gp.tileManager.grassTiles[random.nextInt(grassTileSize)];
+                else if (val >= 0.1  ) tesseract.overlay[i][j] =  gp.tileManager.flowerTiles[random.nextInt(flowersTileSize)];
+                else if (val >= 0.0  ) tesseract.overlay[i][j] = 325;
+
+
+            }
+        }
+
+
 
         biomehashMap.put("B003",tesseract);
 

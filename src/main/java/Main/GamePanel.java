@@ -19,8 +19,8 @@ public class GamePanel extends JPanel implements Runnable{
     
     public final int tile_size = 50;
 
-    public final int max_pixel_row = 16;   // height
-    public final int max_pixel_col = 24;   // width
+    public final int max_pixel_row = 12;   // height
+    public final int max_pixel_col = 16;   // width
 
     public final int screen_width = max_pixel_col * tile_size; // 768
     public final int screen_height = max_pixel_row * tile_size; // 576
@@ -36,7 +36,7 @@ public class GamePanel extends JPanel implements Runnable{
     public final int titleState = 4;
 
     //debug
-    public boolean debug = true;
+    public boolean debug = false;
 
     //System
     Clock clock = new Clock();
@@ -77,7 +77,7 @@ public class GamePanel extends JPanel implements Runnable{
         gridManager.initializeGrid();
         aSetter.setObjects();
         aSetter.setNpcs();
-//        playMusic(1);
+        playMusic(1);
         gameState = titleState;
 
         //debug
@@ -146,7 +146,7 @@ public class GamePanel extends JPanel implements Runnable{
                 currentBiome.object[i].draw(this,g2d);
             }
 
-            gridManager.draw(g2d);
+//            gridManager.draw(g2d);
             // draw NPC
             for(int i = 0; i < currentBiome.npc.length; i++){
                 if(currentBiome.npc[i] == null) continue;
