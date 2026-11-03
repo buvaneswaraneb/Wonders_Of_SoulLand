@@ -9,6 +9,7 @@ public class KeyHandler_test implements KeyListener {
     public boolean enterPressed;
     public boolean srcPressed;
     public boolean destPressed;
+    public boolean Cpressed;
 
     // counters
 
@@ -18,6 +19,7 @@ public class KeyHandler_test implements KeyListener {
     public int rightCounter;
     public int srcCounter;
     public int destCounter;
+
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -35,6 +37,7 @@ public class KeyHandler_test implements KeyListener {
         if (code == KeyEvent.VK_O){ srcPressed = true; };
         if (code == KeyEvent.VK_P){ destPressed = true; };
         if (code == KeyEvent.VK_ENTER){ enterPressed = true; };
+        if (code == KeyEvent.VK_C) Cpressed = true;
 
     }
 
@@ -49,6 +52,7 @@ public class KeyHandler_test implements KeyListener {
         else if (code == KeyEvent.VK_O){ srcPressed = false; srcCounter = 0; }
         else if (code == KeyEvent.VK_P){ destPressed = false; destCounter = 0; }
         else if (code == KeyEvent.VK_ENTER){ destCounter = 0; }
+        if (code == KeyEvent.VK_C) Cpressed = false;
 
 
     }

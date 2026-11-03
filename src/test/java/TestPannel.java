@@ -6,7 +6,7 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
 public class TestPannel extends JPanel implements Runnable{
 
@@ -79,14 +79,6 @@ public class TestPannel extends JPanel implements Runnable{
 
 
     private void setCollison(){
-
-        tiles[7][6].collison = true;
-        tiles[6][7].collison = true;
-        tiles[6][5].collison = true;
-        tiles[5][6].collison = true;
-        tiles[9][7].collison = true;
-        tiles[7][9].collison = true;
-
     }
 
     public void startGameThread(){
@@ -100,6 +92,9 @@ public class TestPannel extends JPanel implements Runnable{
         while (gameThread != null){
             repaint();
             update();
+            if(keyHandlerTest.enterPressed){
+                ChangeScreen();
+            }
             _clock_thread(FPS);
         }
     }
@@ -109,9 +104,7 @@ public class TestPannel extends JPanel implements Runnable{
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         tileManager.fill(g2d);
-        tileManager.drawCursor(g2d);
         player.draw(g2d);
-
         g2d.dispose();
     }
 
@@ -147,5 +140,27 @@ public class TestPannel extends JPanel implements Runnable{
         boolean[][] visited = new boolean[max_pixel_row][max_pixel_col];
         pathfinder.dfsfull(src,dest,max_pixel_col,max_pixel_row,visited,"");
         return null;
+    }
+
+
+    public void ChangeScreen(){
+        gameThread = null;
+        // Create new panel
+        NoiseScreen testPannel = new NoiseScreen();
+
+        JFrame window = (JFrame) SwingUtilities.getWindowAncestor(this);
+
+        window.getContentPane().removeAll();
+
+        window.add(testPannel);
+
+        window.pack();
+        window.revalidate();
+        window.repaint();
+
+        window.setTitle("Noise Visualization");
+
+        testPannel.requestFocusInWindow();
+        testPannel.startNoiseThread();
     }
 }

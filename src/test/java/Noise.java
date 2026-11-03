@@ -18,7 +18,7 @@ public class Noise {
     private void initialRandomValues(){
         for(int x = 0; x < width; x++){
             for(int y = 0; y < height; y++){
-                value[x][y] = random.nextFloat();
+                value[y][x] = random.nextFloat();
             }
         }
     }

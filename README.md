@@ -6,6 +6,7 @@
 
 Value Noise Implementation for procedural generation of objects such as grass, and flowers
 ![](Images/voice_noise.png)
+![](Images/fractalNoise.png)
 
 New Map Tesseract Gate 1
 ![](Images/new_map_beta.png)
