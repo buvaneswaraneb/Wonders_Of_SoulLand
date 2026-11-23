@@ -73,15 +73,12 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void setUpGame(){
         biomeManager.BiomeSetter();
-        currentBiome = biomeManager.getBiome("B003");
+        currentBiome = biomeManager.getBiome("B004");
         gridManager.initializeGrid();
         aSetter.setObjects();
         aSetter.setNpcs();
         playMusic(1);
         gameState = titleState;
-
-        //debug
-//        debug();
     }
 
     public void startGameThread(){

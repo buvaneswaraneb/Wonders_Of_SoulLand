@@ -18,7 +18,7 @@ public class Biome {
     public Boolean isOverlayPresent;
     public int BiomeHeight;
     public int BiomeWidth;
-    public int npcIndex = 0;
+    public int npcIndex = 0; // npc index is the index the to add npc
     public int objectIndex = 0;
 
     public int[][] map = new int[1][1];
@@ -32,10 +32,5 @@ public class Biome {
 
     // objects
     public SuperObject[] object;
-
-
-
-
-
 
 }

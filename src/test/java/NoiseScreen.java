@@ -1,9 +1,11 @@
-import Entity.Traveller;
-import Main.Clock;
-import Main.KeyHandler;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 public class NoiseScreen extends JPanel implements Runnable {
 
@@ -226,7 +228,7 @@ public class NoiseScreen extends JPanel implements Runnable {
             if (remainingTime < 0) remainingTime = 0;
 
             Thread.sleep((long) remainingTime);
-
+            
             nextInterval += drawInterval;
         } catch (InterruptedException e) {
             e.printStackTrace();

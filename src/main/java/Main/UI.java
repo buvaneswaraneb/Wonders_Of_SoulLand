@@ -1,17 +1,18 @@
 package Main;
 
-import Entity.Traveller;
-import Objects.GreenStick_1;
-import Objects.SuperObject;
-
-import java.awt.*;
-import java.awt.image.BufferedImage;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.io.InputStream;
+
+import Entity.Traveller;
+import Objects.SuperObject;
 
 public class UI {
     GamePanel gp;
     Font pixel_font;
-    BufferedImage wood_image;
     SuperObject wood;
     Graphics2D g2d;
     private String message = "";
@@ -30,8 +31,6 @@ public class UI {
 
     public UI(GamePanel gp){
         this.gp = gp;
-        this.wood = new GreenStick_1();
-        this.wood_image = wood.Image;
         try {
             InputStream is = getClass().getResourceAsStream("/Font/pixel_font.ttf");
             pixel_font = Font.createFont(Font.TRUETYPE_FONT,is);

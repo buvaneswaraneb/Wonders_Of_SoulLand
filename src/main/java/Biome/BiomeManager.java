@@ -10,6 +10,7 @@ import Entity.Entity;
 import Main.GamePanel;
 import Main.Noise;
 import Objects.SuperObject;
+import ProceduralGenration.preMap;
 
 public class BiomeManager {
     private HashMap<String,Biome> biomehashMap = new HashMap<>();
@@ -66,6 +67,8 @@ public class BiomeManager {
 
         // tesseract
         setTesseract();
+
+        setProceduralGeneration();
 
 
     }
@@ -128,6 +131,7 @@ public class BiomeManager {
         int grassTileSize = gp.tileManager.grassTiles.length;
         int flowersTileSize = gp.tileManager.flowerTiles.length;
         int musroomTileSize = gp.tileManager.mushroomTiles.length;
+
         float factor = 0.1f;
         for(int i = 0; i < tesseract.BiomeHeight; i++){
             for(int j = 0; j< tesseract.BiomeWidth ;j++){
@@ -156,6 +160,14 @@ public class BiomeManager {
     }
 
 
+    protected void setProceduralGeneration(){
+
+        preMap Premap = new preMap();
+        
+        biomehashMap.put("B004",Premap);
+    } 
+
+
     protected void setMiranaDesert(){
 
         /*
@@ -178,7 +190,6 @@ public class BiomeManager {
         mirana.map = loadMap_CSV(mirana,biomePath);
 
         mirana.npc = new Entity[10];
-
         biomehashMap.put("B002",mirana);
 
 
