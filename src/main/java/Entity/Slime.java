@@ -1,13 +1,11 @@
 package Entity;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-
 import java.util.ArrayList;
-import java.util.List;
 
-import Entity.Attacks.AttackCollison;
 import Entity.Attacks.AttackTemplate;
 import Entity.Attacks.SlugShot;
 import Main.GamePanel;
@@ -16,8 +14,8 @@ import Main.GamePanel;
 public class Slime extends Entity {
 
     // view Field
-    int viewDistanceX = 5 * gp.tile_size;
-    int viewDistanceY = 5 * gp.tile_size;
+    int viewDistanceX = 10 * gp.tile_size;
+    int viewDistanceY = 10 * gp.tile_size;
 
     // debug path
     ArrayList<int[]> testRendering  = new ArrayList<>();

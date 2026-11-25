@@ -1,16 +1,16 @@
-package CollisionEngine;
+package PhysicsEngine;
 
 public abstract class CollisionBody {
 
     // linear Properties 
-
+    
     // position 
     public int x ;
     public int y;
 
     // velocity
-    public int vx;
-    public int vy;
+    public double vx;
+    public double vy;
 
     // Acceleration
     public double ax;
@@ -21,8 +21,17 @@ public abstract class CollisionBody {
     public int height;
     public int width;
     public double mass;
+    public BodyType collBodyType;
+    public int collBodyX;
+    public int collBodyY;
 
-    
+
+
+
+
+
+
+
 
 
 

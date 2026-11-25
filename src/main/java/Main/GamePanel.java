@@ -73,7 +73,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void setUpGame(){
         biomeManager.BiomeSetter();
-        currentBiome = biomeManager.getBiome("B004");
+        currentBiome = biomeManager.getBiome("B002");
         gridManager.initializeGrid();
         aSetter.setObjects();
         aSetter.setNpcs();
@@ -127,6 +127,7 @@ public class GamePanel extends JPanel implements Runnable{
         }
     }
 
+    @Override 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;

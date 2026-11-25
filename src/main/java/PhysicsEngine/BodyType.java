@@ -1,4 +1,4 @@
-package CollisionEngine;
+package PhysicsEngine;
 
 public enum BodyType {
     STATIC,

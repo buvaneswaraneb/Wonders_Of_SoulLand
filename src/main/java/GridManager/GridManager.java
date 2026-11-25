@@ -1,11 +1,11 @@
 package GridManager;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
+
 import Biome.Biome;
 import Entity.Entity;
-import Entity.Player;
 import Main.GamePanel;
-
-import java.awt.*;
 
 public class GridManager {
     GamePanel gp;
@@ -65,8 +65,8 @@ public class GridManager {
     private void managePlayer(){
 
         // calculate Relevant
-        int playerX = gp.player.World_x/gp.currentBiome.BiomeWidth;
-        int playerY = gp.player.World_y/gp.currentBiome.BiomeHeight;
+        int playerX = (int) Math.round((double) gp.player.World_x/gp.currentBiome.BiomeWidth);
+        int playerY = (int) Math.round((double) gp.player.World_y/gp.currentBiome.BiomeHeight);
 
         if (gp.player.grid == null){
             gp.player.grid = new GridNode(playerX,playerY);
@@ -89,8 +89,8 @@ public class GridManager {
 
             if (e == null) continue;
 
-            int EntityX = ( e.World_x + 25 ) /gp.currentBiome.BiomeWidth;
-            int EntityY = ( e.World_y + 25 ) /gp.currentBiome.BiomeWidth;
+            int EntityX = (int) Math.round( (double) e.World_x / gp.currentBiome.BiomeWidth);
+            int EntityY = (int) Math.round( (double) e.World_y / gp.currentBiome.BiomeHeight);
 
             if (e.grid == null) {
                e.grid = new GridNode(EntityX, EntityY);
